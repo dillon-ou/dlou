@@ -59,18 +59,18 @@ class sorted_array;
 #### Member functions
 | Name | Description |
 | --- | --- |
-| [(constructor)](#sorted_array-sorted_array) | 初始化陣列排序 |
-| [operator=](#sorted_array-operator-1) | 複製同大小陣列並排序 |
-| [size](#sorted_array-size) | 陣列大小 |
-| [data](#sorted_array-data) | 陣列指標 |
-| [begin](#sorted_array-begin) | 起始位置 |
-| [end](#sorted_array-end) | 結束位置 |
-| [operator[]](#sorted_array-operator-2) | 訪問元素 |
-| [at](#sorted_array-at) | 訪問元素，無目標則回無效值 |
-| [find](#sorted_array-find) | 取得符合條件值的開始位置 |
-| [lower_bound](#sorted_array-lower_bound) | 取得近似條件值的開始位置 |
-| [upper_bound](#sorted_array-upper_bound) | 取得近似條件值的結束位置 |
-| [equal_range](#sorted_array-equal_range) | 取得符合條件值的開始與結束位置 |
+| [(constructor)](#sorted_arraysorted_array) | 初始化陣列排序 |
+| [operator=](#sorted_arrayoperator-1) | 複製同大小陣列並排序 |
+| [size](#sorted_arraysize) | 陣列大小 |
+| [data](#sorted_arraydata) | 陣列指標 |
+| [begin](#sorted_arraybegin) | 起始位置 |
+| [end](#sorted_arrayend) | 結束位置 |
+| [operator[]](#sorted_arrayoperator-2) | 訪問元素 |
+| [at](#sorted_arrayat) | 訪問元素，無目標則回無效值 |
+| [find](#sorted_arrayfind) | 取得符合條件值的開始位置 |
+| [lower_bound](#sorted_arraylower_bound) | 取得近似條件值的開始位置 |
+| [upper_bound](#sorted_arrayupper_bound) | 取得近似條件值的結束位置 |
+| [equal_range](#sorted_arrayequal_range) | 取得符合條件值的開始與結束位置 |
 
 #### Example
 見 [make_sorted_set](#make_sorted_set)、[make_sorted_map](#make_sorted_map)、[merge](#merge)  
@@ -128,9 +128,9 @@ constexpr sorted_array(const value_type(&x)[N]);
 template<class OldCompare>
  constexpr sorted_array(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
-###### Template parameters
+- **Template Parameters**  
 `OldCompare` - 來源陣列的排序法  
-###### Parameters
+- **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
 ##### sorted_array::operator=
@@ -141,9 +141,9 @@ constexpr sorted_array& operator =(const value_type(&x)[N]);
 template<class OldCompare>
  constexpr sorted_array& operator =(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
-###### Template parameters
+- **Template Parameters**  
 `OldCompare` - 來源陣列的排序法  
-###### Parameters
+- **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
 ##### sorted_array::size
@@ -151,7 +151,7 @@ template<class OldCompare>
 ```C++
 constexpr size_t size() const;
 ```
-###### Return Value
+- **Return Value**  
 template parameter N。
 
 ##### sorted_array::data
@@ -159,7 +159,7 @@ template parameter N。
 ```C++
 constexpr pointer data() const;
 ```
-###### Return Value
+- **Return Value**  
 陣列起始位置。
 
 ##### sorted_array::begin
@@ -167,7 +167,7 @@ constexpr pointer data() const;
 ```C++
 constexpr pointer begin() const;
 ```
-###### Return Value
+- **Return Value**  
 data()。
 
 ##### sorted_array::end
@@ -175,7 +175,7 @@ data()。
 ```C++
 constexpr pointer end() const;
 ```
-###### Return Value
+- **Return Value**  
 data() + size()。
 
 ##### sorted_array::operator[]
@@ -183,9 +183,9 @@ data() + size()。
 ```C++
 constexpr const mapped_type& operator [](const key_type& k);
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值
-###### Return Value
+- **Return Value**  
 等於 k 鍵值元素的對應值引用，若無該元素將造成非預期錯誤。
 
 ##### sorted_array::at
@@ -193,10 +193,10 @@ constexpr const mapped_type& operator [](const key_type& k);
 ```C++
 constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_type{}) const;
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值  
 `invalid` - 無對應時的回傳值
-###### Return Value
+- **Return Value**  
 等於 k 鍵值元素的對應值，若無元素則回傳 invalid 引數。
 
 ##### sorted_array::find
@@ -204,9 +204,9 @@ constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_
 ```C++
 constexpr pointer find(const key_type& k) const;
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值
-###### Return Value
+- **Return Value**  
 等於 k 鍵值元素的指標，若無元素則回傳 end()。
 
 ##### sorted_array::lower_bound
@@ -214,9 +214,9 @@ constexpr pointer find(const key_type& k) const;
 ```C++
 constexpr pointer lower_bound(const key_type& k) const;
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值
-###### Return Value
+- **Return Value**  
 不小於 k 鍵值的元素指標。
 
 ##### sorted_array::upper_bound
@@ -224,9 +224,9 @@ constexpr pointer lower_bound(const key_type& k) const;
 ```C++
 constexpr pointer upper_bound(const key_type& k) const;
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值
-###### Return Value
+- **Return Value**  
 大於 k 鍵值的元素指標。
 
 ##### sorted_array::equal_range
@@ -234,9 +234,9 @@ constexpr pointer upper_bound(const key_type& k) const;
 ```C++
 constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
 ```
-###### Parameters
+- **Parameters**  
 `k` - 對映的元素鍵值
-###### Return Value
+- **Return Value**  
 等效於 std::make__pair(lower_bound(k), upper_bound(k))。
 
 ##### sorted_array::range
@@ -244,10 +244,10 @@ constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
 ```C++
 constexpr std::pair<pointer, pointer> range(const key_type& min_key, const key_type& max_key) const;
 ```
-###### Parameters
+- **Parameters**  
 `min_key` - 對映元素的最小鍵值
 `max_key` - 對映元素的最大鍵值
-###### Return Value
+- **Return Value**  
 等效於 std::make__pair(lower_bound(min_key), upper_bound(max_key))。
 
 ___
@@ -258,18 +258,18 @@ template<class T, class Compare = std::less<T>, size_t N>
 constexpr auto sorted_set(const T(&arr)[N]);
 ```
 
-###### Template parameters
+- **Template Parameters**  
 `T` - 集合的元素型別  
 `Compare` - 二元 predicate 大小比較。ex：排序由小到大 `(a < b)`  
 `N` - 陣列大小
 
-###### Function Parameters
+- **Function Parameters**  
 `arr` - 集合的所有值
 
-###### Return Value
+- **Return Value**  
 sorted_set\<N, T, Compare>。
 
-###### Example
+- **Example**  
 ```C++
 // prime numbers less than 100
 //  = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
@@ -295,19 +295,19 @@ template<class Key, class Val, class Compare = std::less<Key>, size_t N>
 constexpr auto make_sorted_map(const std::pair<Key, Val>(&arr)[N]);
 ```
 
-###### Template parameters
+- **Template Parameters**  
 `Key` - 排序用鍵值型別  
 `Val` - 映射鍵值的型別  
 `Compare` - 二元 predicate 大小比較。ex：排序由小到大 `(a < b)`  
 `N` - 陣列大小
 
-###### Function Parameters
+- **Function Parameters**  
 `arr` - 集合的所有值
 
-###### Return Value
+- **Return Value**  
 sorted_map\<N, Key, Val, Compare>。
 
-###### Example
+- **Example**  
 ```C++
 enum {
 	aaa = 0,
@@ -359,7 +359,7 @@ template<class NewCompare = void, class Key, size_t N1, class Compare1, size_t N
 constexpr auto merge(const Key(&y)[N2], const sorted_array<N1, Key, void, Compare1>& x);
 ```
 
-###### Template parameters
+- **Template Parameters**  
 `NewCompare` - 新的排序 predicate ，如果為 void 則以輸入參數的排序排序  
 `Key` - 排序用鍵值型別  
 `Val` - 映射鍵值的型別  
@@ -368,14 +368,14 @@ constexpr auto merge(const Key(&y)[N2], const sorted_array<N1, Key, void, Compar
 `N2` - 第二項參數的數組大小  
 `Compare2` - 第二項參數的排序類型  
 
-###### Function Parameters
+- **Function Parameters**  
 `x` - 第一項參數  
 `y` - 第二項參數
 
-###### Return Value
+- **Return Value**  
 sorted_map\<N1 + N2, Key, Val, NewCompare>。
 
-###### Example
+- **Example**  
 ```C++
 // foo = {5, 3, 1}
 constexpr auto foo = sorted_set<int, std::greater<int>>({1, 3, 5});
