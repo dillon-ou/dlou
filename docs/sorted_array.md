@@ -20,7 +20,7 @@
 | [merge](#merge) | 合併並重新排序兩組數組 |
 
 ___
-### sorted_array
+## sorted_array
 固定大小的有序常數陣列
 
 ```C++
@@ -38,7 +38,7 @@ class sorted_array;
 * std::upper_bound
 * std::equal_range
 
-#### Template parameters
+### Template parameters
 | Name | Description |
 | --- | --- |
 | N | 陣列大小 |
@@ -46,7 +46,7 @@ class sorted_array;
 | Val | 儲存的型別，若為 void 則無 |
 | Compare | Key 的二元 predicate 大小比較。ex：排序由小到大 `(a < b)` |
 
-#### Member types
+### Member types
 | Name | Description |
 | --- | --- |
 | key_type | 鍵值 (Key) 型別 |
@@ -56,7 +56,7 @@ class sorted_array;
 | reference | value_type 的常數引數 |
 | pointer | value_type 的常數指標 |
 
-#### Member functions
+### Member functions
 | Name | Description |
 | --- | --- |
 | [(constructor)](#sorted_arraysorted_array) | 初始化陣列排序 |
@@ -72,7 +72,7 @@ class sorted_array;
 | [upper_bound](#sorted_arrayupper_bound) | 取得近似條件值的結束位置 |
 | [equal_range](#sorted_arrayequal_range) | 取得符合條件值的開始與結束位置 |
 
-#### Example
+### Example
 見 [make_sorted_set](#make_sorted_set)、[make_sorted_map](#make_sorted_map)、[merge](#merge)  
 ex: 分析文本的項目取用
 ```C++
@@ -119,7 +119,7 @@ std::cout << "sn: " << items[serial_number]
 	<< std::endl;
 ```
 
-#### sorted_array::sorted_array
+### sorted_array::sorted_array
 初始化陣列排序
 ```C++
 constexpr sorted_array(const sorted_array& x);
@@ -132,7 +132,7 @@ template<class OldCompare>
 - **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
-#### sorted_array::operator=
+### sorted_array::operator=
 複製同大小陣列並排序
 ```C++
 constexpr sorted_array& operator =(const sorted_array&);
@@ -145,7 +145,7 @@ template<class OldCompare>
 - **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
-#### sorted_array::size
+### sorted_array::size
 陣列大小
 ```C++
 constexpr size_t size() const;
@@ -153,7 +153,7 @@ constexpr size_t size() const;
 - **Return Value**  
 template parameter N。
 
-#### sorted_array::data
+### sorted_array::data
 陣列指標
 ```C++
 constexpr pointer data() const;
@@ -161,7 +161,7 @@ constexpr pointer data() const;
 - **Return Value**  
 陣列起始位置。
 
-#### sorted_array::begin
+### sorted_array::begin
 起始位置
 ```C++
 constexpr pointer begin() const;
@@ -169,7 +169,7 @@ constexpr pointer begin() const;
 - **Return Value**  
 data()。
 
-#### sorted_array::end
+### sorted_array::end
 分配區塊
 ```C++
 constexpr pointer end() const;
@@ -177,7 +177,7 @@ constexpr pointer end() const;
 - **Return Value**  
 data() + size()。
 
-#### sorted_array::operator[]
+### sorted_array::operator[]
 訪問元素
 ```C++
 constexpr const mapped_type& operator [](const key_type& k);
@@ -187,7 +187,7 @@ constexpr const mapped_type& operator [](const key_type& k);
 - **Return Value**  
 等於 k 鍵值元素的對應值引用，若無該元素將造成非預期錯誤。
 
-#### sorted_array::at
+### sorted_array::at
 訪問元素，無目標則回無效值
 ```C++
 constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_type{}) const;
@@ -198,7 +198,7 @@ constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_
 - **Return Value**  
 等於 k 鍵值元素的對應值，若無元素則回傳 invalid 引數。
 
-#### sorted_array::find
+### sorted_array::find
 取得符合條件值的開始位置
 ```C++
 constexpr pointer find(const key_type& k) const;
@@ -208,7 +208,7 @@ constexpr pointer find(const key_type& k) const;
 - **Return Value**  
 等於 k 鍵值元素的指標，若無元素則回傳 end()。
 
-#### sorted_array::lower_bound
+### sorted_array::lower_bound
 取得近似條件值的開始位置
 ```C++
 constexpr pointer lower_bound(const key_type& k) const;
@@ -218,7 +218,7 @@ constexpr pointer lower_bound(const key_type& k) const;
 - **Return Value**  
 不小於 k 鍵值的元素指標。
 
-#### sorted_array::upper_bound
+### sorted_array::upper_bound
 取得近似條件值的結束位置
 ```C++
 constexpr pointer upper_bound(const key_type& k) const;
@@ -228,7 +228,7 @@ constexpr pointer upper_bound(const key_type& k) const;
 - **Return Value**  
 大於 k 鍵值的元素指標。
 
-#### sorted_array::equal_range
+### sorted_array::equal_range
 取得符合條件值的開始與結束位置
 ```C++
 constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
@@ -238,7 +238,7 @@ constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
 - **Return Value**  
 等效於 std::make__pair(lower_bound(k), upper_bound(k))。
 
-#### sorted_array::range
+### sorted_array::range
 取得符合條件範圍的開始與結束位置
 ```C++
 constexpr std::pair<pointer, pointer> range(const key_type& min_key, const key_type& max_key) const;
@@ -250,7 +250,7 @@ constexpr std::pair<pointer, pointer> range(const key_type& min_key, const key_t
 等效於 std::make__pair(lower_bound(min_key), upper_bound(max_key))。
 
 ___
-### make_sorted_set
+## make_sorted_set
 建構僅含鍵值的有序常數陣列
 ```C++
 template<class T, class Compare = std::less<T>, size_t N>
@@ -287,7 +287,7 @@ for (auto v : prime100)
 ```
 
 ___
-### make_sorted_map
+## make_sorted_map
 建構具映射值的有序常數陣列
 ```C++
 template<class Key, class Val, class Compare = std::less<Key>, size_t N>
@@ -339,7 +339,7 @@ for (auto v : field__map)
 ```
 
 ___
-### merge
+## merge
 合併並重新排序兩組數組
 ```C++
 template<class NewCompare = void, class Key, class Val, size_t N1, class Compare1, size_t N2, class Compare2>

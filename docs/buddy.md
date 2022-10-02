@@ -8,7 +8,7 @@ Buddy memory allocation 實作
 | [simple_buddy](#simple_buddy) | buddy的再封裝，更簡單的分配所需記憶體大小與位移位置 |
 
 ___
-### buddy
+## buddy
 Buddy memory allocation  
 
 ```C++
@@ -23,18 +23,18 @@ node 紀錄 subtree 可分配的最大空間，
 allocate 時由 root 往 leaves 找到需要大小的分配空間，  
 release 時由 leaf 往 root 找已經分配的空間。
 
-#### Template parameters
+### Template parameters
 | Name | Description |
 | --- | --- |
 | Level | 區塊層級數 |
 
-#### Member constants
+### Member constants
 | Name | Description |
 | --- | --- |
 | max_level | 區塊最大層級 |
 | max_size | 2^max_level^ 為可分配最大的區塊單位數 |
 
-#### Member functions
+### Member functions
 | Name | Description |
 | --- | --- |
 | [empty](#buddyempty) | 無分配任何區塊 |
@@ -44,7 +44,7 @@ release 時由 leaf 往 root 找已經分配的空間。
 | [release](#buddyrelease) | 釋放區塊 |
 | [release_by_pow2](#buddyrelease_by_pow2) | 根據 allocate_by_pow2 來釋放區塊 |
 
-#### Example
+### Example
 ```C++
 // Buddy memory allocator(256 ~ 4096)
 // Base: 256
@@ -69,7 +69,7 @@ if (buf1)
 delete[]block;
 ```
 
-#### buddy::empty
+### buddy::empty
 無分配任何區塊
 ```C++
 bool empty() const;
@@ -77,7 +77,7 @@ bool empty() const;
 - **Return Value**  
 `true` 為尚未使用，否則為 `false` 。
 
-#### buddy::full
+### buddy::full
 無可用空間
 ```C++
 bool full() const;
@@ -85,7 +85,7 @@ bool full() const;
 - **Return Value**  
 `true` 為無空餘空間，否則為 `false` 。
 
-#### buddy::allocate
+### buddy::allocate
 分配區塊
 ```C++
 size_t allocate(size_t siz);
@@ -95,7 +95,7 @@ size_t allocate(size_t siz);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的單位大小數，否則回傳 dlou::none。
 
-#### buddy::allocate_by_pow2
+### buddy::allocate_by_pow2
 分配 2^n^ 大小區塊
 ```C++
 size_t allocate_by_pow2(uint8_t exp);
@@ -105,7 +105,7 @@ size_t allocate_by_pow2(uint8_t exp);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的單位大小數，否則回傳 dlou::none。
 
-#### buddy::release
+### buddy::release
 釋放區塊
 ```C++
 void release(size_t pos);
@@ -115,7 +115,7 @@ void release(size_t pos, size_t siz);
 `pos` - allocate的回傳值  
 `siz` - allocate的參數值
 
-#### buddy::release_by_pow2
+### buddy::release_by_pow2
 根據 allocate_by_pow2 來釋放區塊
 ```C++
 void release_by_pow2(size_t pos, uint8_t exp);
@@ -125,27 +125,27 @@ void release_by_pow2(size_t pos, uint8_t exp);
 `exp` - allocate_by_pow2 的參數值
 
 ___
-### simple_buddy
+## simple_buddy
 buddy的再封裝，更簡單的分配所需記憶體大小與位移位置
 ```C++
 template<size_t MinSize, size_t MaxSize>
 class simple_buddy;
 ```
 
-#### Template parameters
+### Template parameters
 | Name | Description |
 | --- | --- |
 | MinSize | 請求的最小區塊大小 |
 | MaxSize | 請求的最大區塊大小 |
 
-#### Member constants
+### Member constants
 | Name | Description |
 | --- | --- |
 | min_size | 可分配最小的區塊大小 |
 | max_size | 可分配最大的區塊大小 |
 | max_level | log~2~(max_size / min_size) |
 
-#### Member functions
+### Member functions
 | Name | Description |
 | --- | --- |
 | [empty](#simple_buddyempty) | 無分配任何區塊 |
@@ -153,7 +153,7 @@ class simple_buddy;
 | [allocate](#simple_buddyallocate) | 分配區塊 |
 | [release](#simple_buddyrelease) | 釋放區塊 |
 
-#### Example
+### Example
 ```C++
 // Buddy memory allocator(256 ~ 4096)
 char* block = new char[4096];
@@ -170,7 +170,7 @@ if (buf)
 delete[]block;
 ```
 
-#### simple_buddy::empty
+### simple_buddy::empty
 無分配任何區塊
 ```C++
 bool empty() const;
@@ -178,7 +178,7 @@ bool empty() const;
 - **Return Value**  
 `true` 為尚未使用，否則為 `false` 。
 
-#### simple_buddy::full
+### simple_buddy::full
 無可用空間
 ```C++
 bool full() const;
@@ -186,7 +186,7 @@ bool full() const;
 - **Return Value**  
 `true` 為無空餘空間，否則為 `false` 。
 
-#### simple_buddy::allocate
+### simple_buddy::allocate
 分配區塊
 ```C++
 size_t allocate(size_t siz);
@@ -196,7 +196,7 @@ size_t allocate(size_t siz);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的 Bytes 值，否則回傳 dlou::none。
 
-#### simple_buddy::release
+### simple_buddy::release
 釋放區塊
 ```C++
 void release(size_t pos);
