@@ -73,51 +73,10 @@ class sorted_array;
 | [equal_range](#sorted_arrayequal_range) | 取得符合條件值的開始與結束位置 |
 
 ### Example
-見 [make_sorted_set](#make_sorted_set)、[make_sorted_map](#make_sorted_map)、[merge](#merge)  
-ex: 分析文本的項目取用
-```C++
-enum : size_t {
-	serial_number = 0,
-	id,
-	name,
-	fields_count
-};
-
-constexpr auto keys = sorted_array<fields_count, std::string_view, size_t>({
-	{"serial_number", serial_number},
-	{"id", id},
-	{"name", name},
-});
-
-std::string items[fields_count];
-
-json_parser json(json_doc);
-for (auto& item : json.object()) {
-	size_t idx = keys.at(item.name(), fields_count);
-	if (fields_count != idx)
-		items[idx] = item.value();
-}
-
-std::cout << "sn: " << items[serial_number]
-	<< ", id: " << items[id]
-	<< ", name: " << items[name]
-	<< std::endl;
-
-for (auto& s : items)
-	s.clear();
-
-xml_parser xml(xml_doc);
-for (auto& attr : xml.find("info").attributes()) {
-	auto iter = keys.find(attr.name());
-	if (iter != keys.end())
-		items[iter->second] = attr.value();
-}
-
-std::cout << "sn: " << items[serial_number]
-	<< ", id: " << items[id]
-	<< ", name: " << items[name]
-	<< std::endl;
-```
+* [make_sorted_set](#make_sorted_set)  
+  驗證是否為小於 100 的質數  
+* [make_sorted_map](#make_sorted_map)  
+  文字格式解析後的項目取用
 
 ### sorted_array::sorted_array
 初始化陣列排序
@@ -275,7 +234,7 @@ sorted_set\<N, T, Compare>。
 constexpr auto prime100
 	= sorted_set({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97});
 
-if (prime100.at(67, 0) == 0)
+if (prime100.at(67, 0) != 0)
 	std::cout << "67 is prime number.\n";
 
 if (prime100.find(57) != prime100.end())
@@ -308,34 +267,49 @@ sorted_map\<N, Key, Val, Compare>。
 
 - **Example**  
 ```C++
-enum {
-	aaa = 0,
-	bbb,
-	ccc
+enum : size_t {
+	serial_number = 0,
+	id,
+	name,
+	fields_count
 };
 
-// field to index
-constexpr auto field__map = sorted_map<std::string_view, int>({
-	{"aaa", aaa},
-	{"bbb", bbb},
-	{"ccc", ccc}
+// return sorted_array<fields_count, std::string_view, size_t>
+constexpr auto keys = make_sorted_map<std::string_view, size_t>({
+	{"serial_number", serial_number},
+	{"id", id},
+	{"name", name},
 });
 
-std::cout << "\"bbb\" index: " << field__map["bbb"] << '\n';
-// error: field__map["abc"]
+std::string items[fields_count];
 
-if (field__map.at("abc", -1) == -1)
-	std::cout << "not found \"abc\".\n";
+json_parser json(json_doc);
+for (auto& item : json.object()) {
+	size_t idx = keys.at(item.name()
+		, fields_count /* invalid value */);
+	if (fields_count != idx)
+		items[idx] = item.value();
+}
 
-auto iter = field__map.find("bbb");
-if (iter != field__map.end())
-	std::cout << "not found \"bbb\".\n";
-else
-	std::cout << "find \"" << iter->first << "\" index: " << iter->second << '\n';
+std::cout << "sn: " << items[serial_number]
+	<< ", id: " << items[id]
+	<< ", name: " << items[name]
+	<< std::endl;
 
-std::cout << "show all fields\n";
-for (auto v : field__map)
-	std::cout << "\"" << v.first << "\" index: " << v.second << '\n';
+for (auto& s : items)
+	s.clear();
+
+xml_parser xml(xml_doc);
+for (auto& attr : xml.find("info").attributes()) {
+	auto iter = keys.find(attr.name());
+	if (iter != keys.end())
+		items[iter->second] = attr.value();
+}
+
+std::cout << "sn: " << items[serial_number]
+	<< ", id: " << items[id]
+	<< ", name: " << items[name]
+	<< std::endl;
 ```
 
 ___
