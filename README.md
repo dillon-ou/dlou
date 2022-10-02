@@ -1,26 +1,26 @@
 # Dlou
-**Dlou** µ{¦¡®w¬°¦UºØ C++ ªº¸ê®Æµ²ºc¹ê²{
+**Dlou** ç¨‹å¼åº«ç‚ºå„ç¨® C++ çš„è³‡æ–™çµæ§‹å¯¦ç¾
 
 ## Features
-* «O¯d pointer ªº¨Ï¥Î¥H­İ®e C »y¨¥®w
-* ´î¤Ö dynamic memory ªº¨Ï¥Î
-* ³q¹L«e¸m³B²z¼W¶i¹B¦æ®É®Ä¯à
-* ¹w³]¤£ÅçÃÒ¤Ş¼Æªº¥¿½T©Ê¡A¥Ñ¨Ï¥ÎªÌÅçÃÒ¥HÁ×§K­«½ÆÅçÃÒ
+* ä¿ç•™ pointer çš„ä½¿ç”¨ä»¥å…¼å®¹ C èªè¨€åº«
+* æ¸›å°‘ dynamic memory çš„ä½¿ç”¨
+* é€šéå‰ç½®è™•ç†å¢é€²é‹è¡Œæ™‚æ•ˆèƒ½
+* é è¨­ä¸é©—è­‰å¼•æ•¸çš„æ­£ç¢ºæ€§ï¼Œç”±ä½¿ç”¨è€…é©—è­‰ä»¥é¿å…é‡è¤‡é©—è­‰
 
 ## Usage
-³o¬O C++ Header only library ¡Aª½±µ½Æ»s /include ¥Ø¿ı¦Ü¦w¸Ë¸ô¸g¡C  
-³]¸m include directories «á¡A¦bµ{¦¡¤¤ `#include <dlou/**.hpp>` ¨Ï¥Î®w¡C
+é€™æ˜¯ C++ Header only library ï¼Œç›´æ¥è¤‡è£½ /include ç›®éŒ„è‡³å®‰è£è·¯ç¶“ã€‚  
+è¨­ç½® include directories å¾Œï¼Œåœ¨ç¨‹å¼ä¸­ `#include <dlou/**.hpp>` ä½¿ç”¨åº«ã€‚
 
 ## Support
-³q¹L `#include <macro.hpp>` ÀË´ú¬O§_¤ä´©µ{¦¡®w  
+é€šé `#include <macro.hpp>` æª¢æ¸¬æ˜¯å¦æ”¯æ´ç¨‹å¼åº«  
 
 ## Reference
 | Include | Description |
 | --- | --- |
-| [buddy.hpp](docs/buddy.md) | Buddy memory allocation ¹ê§@ |
-| integer.hpp | ¾ã¼Æºâªk |
-| [macro.hpp](docs/macro.md) | Marco ©w¸q»P¥\¯à³]¸mµù°O |
-| [sorted_array.hpp](docs/sorted_array.md) | ¥i¨Ñ·j´Mªº©T©w¤j¤p±Æ§Ç°}¦C |
+| [buddy.hpp](docs/buddy.md) | Buddy memory allocation å¯¦ä½œ |
+| integer.hpp | æ•´æ•¸ç®—æ³• |
+| [macro.hpp](docs/macro.md) | Marco å®šç¾©èˆ‡åŠŸèƒ½è¨­ç½®è¨»è¨˜ |
+| [sorted_array.hpp](docs/sorted_array.md) | å¯ä¾›æœå°‹çš„å›ºå®šå¤§å°æ’åºé™£åˆ— |
 
 ## Index
 ### B

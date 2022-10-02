@@ -1,6 +1,6 @@
 # <macro.hpp>
 ## Macro Options
 * DLOU_NO_ALIAS  
-  °±¥Î©ó namespace dlou ¤U Nested namespace ¸Ìªº§O¦W
+  åœç”¨æ–¼ namespace dlou ä¸‹ Nested namespace è£¡çš„åˆ¥å
 * DLOU_CHECK_ARGS  
-  ¨ç¦¡¤ºÅçÃÒ¤Ş¼Æ¬O§_¥¿½T
+  å‡½å¼å…§é©—è­‰å¼•æ•¸æ˜¯å¦æ­£ç¢º

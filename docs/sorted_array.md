@@ -1,27 +1,27 @@
 # <sorted_array.hpp>
-¥i¨Ñ·j´Mªº©T©w¤j¤p±Æ§Ç°}¦C
+å¯ä¾›æœå°‹çš„å›ºå®šå¤§å°æ’åºé™£åˆ—
 
 ## Types
 | Name | Description |
 | --- | --- |
-| sorted_set | sorted_array ¶È§tÁä­Èªº§O¦W |
-| sorted_map | sorted_array ¨ã¬M®g­Èªº§O¦W |
+| sorted_set | sorted_array åƒ…å«éµå€¼çš„åˆ¥å |
+| sorted_map | sorted_array å…·æ˜ å°„å€¼çš„åˆ¥å |
 
 ## Classes
 | Name | Description |
 | --- | --- |
-| [sorted_array](#sorted_array) | ©T©w¤j¤pªº¦³§Ç±`¼Æ°}¦C |
+| [sorted_array](#sorted_array) | å›ºå®šå¤§å°çš„æœ‰åºå¸¸æ•¸é™£åˆ— |
 
 ## Functions
 | Name | Description |
 | --- | --- |
-| [make_sorted_set](#make_sorted_set) | «Øºc¶È§tÁä­Èªº¦³§Ç±`¼Æ°}¦C |
-| [make_sorted_map](#make_sorted_map) | «Øºc¨ã¬M®g­Èªº¦³§Ç±`¼Æ°}¦C |
-| [merge](#merge) | ¦X¨Ö¨Ã­«·s±Æ§Ç¨â²Õ¼Æ²Õ |
+| [make_sorted_set](#make_sorted_set) | å»ºæ§‹åƒ…å«éµå€¼çš„æœ‰åºå¸¸æ•¸é™£åˆ— |
+| [make_sorted_map](#make_sorted_map) | å»ºæ§‹å…·æ˜ å°„å€¼çš„æœ‰åºå¸¸æ•¸é™£åˆ— |
+| [merge](#merge) | åˆä½µä¸¦é‡æ–°æ’åºå…©çµ„æ•¸çµ„ |
 
 ___
 ## sorted_array
-©T©w¤j¤pªº¦³§Ç±`¼Æ°}¦C
+å›ºå®šå¤§å°çš„æœ‰åºå¸¸æ•¸é™£åˆ—
 
 ```C++
 template<
@@ -32,7 +32,7 @@ template<
 class sorted_array;
 ```
 
-¬Û·í©ó°}¦C»P¤U¦C¨ç¦¡ªº«Ê¸Ë¡G  
+ç›¸ç•¶æ–¼é™£åˆ—èˆ‡ä¸‹åˆ—å‡½å¼çš„å°è£ï¼š  
 * std::sort
 * std::lower_bound
 * std::upper_bound
@@ -41,40 +41,40 @@ class sorted_array;
 ### Template parameters
 | Name | Description |
 | --- | --- |
-| N | °}¦C¤j¤p |
-| Key | ±Æ§Ç¥ÎÁä­È«¬§O |
-| Val | Àx¦sªº«¬§O¡A­Y¬° void «hµL |
-| Compare | Key ªº¤G¤¸ predicate ¤j¤p¤ñ¸û¡Cex¡G±Æ§Ç¥Ñ¤p¨ì¤j `(a < b)` |
+| N | é™£åˆ—å¤§å° |
+| Key | æ’åºç”¨éµå€¼å‹åˆ¥ |
+| Val | å„²å­˜çš„å‹åˆ¥ï¼Œè‹¥ç‚º void å‰‡ç„¡ |
+| Compare | Key çš„äºŒå…ƒ predicate å¤§å°æ¯”è¼ƒã€‚exï¼šæ’åºç”±å°åˆ°å¤§ `(a < b)` |
 
 ### Member types
 | Name | Description |
 | --- | --- |
-| key_type | Áä­È (Key) «¬§O |
-| mapped_type | ³X°İ¤¸¯Àªº«¬§O¡AVal != void ? Val : Key |
-| key_compare | Áä­È¤ñ¹ï predicate  |
-| value_type | ·j´M»P´M³X­Èªº«¬§O |
-| reference | value_type ªº±`¼Æ¤Ş¼Æ |
-| pointer | value_type ªº±`¼Æ«ü¼Ğ |
+| key_type | éµå€¼ (Key) å‹åˆ¥ |
+| mapped_type | è¨ªå•å…ƒç´ çš„å‹åˆ¥ï¼ŒVal != void ? Val : Key |
+| key_compare | éµå€¼æ¯”å° predicate  |
+| value_type | æœå°‹èˆ‡å°‹è¨ªå€¼çš„å‹åˆ¥ |
+| reference | value_type çš„å¸¸æ•¸å¼•æ•¸ |
+| pointer | value_type çš„å¸¸æ•¸æŒ‡æ¨™ |
 
 ### Member functions
 | Name | Description |
 | --- | --- |
-| [(constructor)](#sorted_arraysorted_array) | ªì©l¤Æ°}¦C±Æ§Ç |
-| [operator=](#sorted_arrayoperator) | ½Æ»s¦P¤j¤p°}¦C¨Ã±Æ§Ç |
-| [size](#sorted_arraysize) | °}¦C¤j¤p |
-| [data](#sorted_arraydata) | °}¦C«ü¼Ğ |
-| [begin](#sorted_arraybegin) | °_©l¦ì¸m |
-| [end](#sorted_arrayend) | µ²§ô¦ì¸m |
-| [operator[]](#sorted_arrayoperator-1) | ³X°İ¤¸¯À |
-| [at](#sorted_arrayat) | ³X°İ¤¸¯À¡AµL¥Ø¼Ğ«h¦^µL®Ä­È |
-| [find](#sorted_arrayfind) | ¨ú±o²Å¦X±ø¥ó­Èªº¶}©l¦ì¸m |
-| [lower_bound](#sorted_arraylower_bound) | ¨ú±oªñ¦ü±ø¥ó­Èªº¶}©l¦ì¸m |
-| [upper_bound](#sorted_arrayupper_bound) | ¨ú±oªñ¦ü±ø¥ó­Èªºµ²§ô¦ì¸m |
-| [equal_range](#sorted_arrayequal_range) | ¨ú±o²Å¦X±ø¥ó­Èªº¶}©l»Pµ²§ô¦ì¸m |
+| [(constructor)](#sorted_arraysorted_array) | åˆå§‹åŒ–é™£åˆ—æ’åº |
+| [operator=](#sorted_arrayoperator) | è¤‡è£½åŒå¤§å°é™£åˆ—ä¸¦æ’åº |
+| [size](#sorted_arraysize) | é™£åˆ—å¤§å° |
+| [data](#sorted_arraydata) | é™£åˆ—æŒ‡æ¨™ |
+| [begin](#sorted_arraybegin) | èµ·å§‹ä½ç½® |
+| [end](#sorted_arrayend) | çµæŸä½ç½® |
+| [operator[]](#sorted_arrayoperator-1) | è¨ªå•å…ƒç´  |
+| [at](#sorted_arrayat) | è¨ªå•å…ƒç´ ï¼Œç„¡ç›®æ¨™å‰‡å›ç„¡æ•ˆå€¼ |
+| [find](#sorted_arrayfind) | å–å¾—ç¬¦åˆæ¢ä»¶å€¼çš„é–‹å§‹ä½ç½® |
+| [lower_bound](#sorted_arraylower_bound) | å–å¾—è¿‘ä¼¼æ¢ä»¶å€¼çš„é–‹å§‹ä½ç½® |
+| [upper_bound](#sorted_arrayupper_bound) | å–å¾—è¿‘ä¼¼æ¢ä»¶å€¼çš„çµæŸä½ç½® |
+| [equal_range](#sorted_arrayequal_range) | å–å¾—ç¬¦åˆæ¢ä»¶å€¼çš„é–‹å§‹èˆ‡çµæŸä½ç½® |
 
 ### Example
-¨£ [make_sorted_set](#make_sorted_set)¡B[make_sorted_map](#make_sorted_map)¡B[merge](#merge)  
-ex: ¤ÀªR¤å¥»ªº¶µ¥Ø¨ú¥Î
+è¦‹ [make_sorted_set](#make_sorted_set)ã€[make_sorted_map](#make_sorted_map)ã€[merge](#merge)  
+ex: åˆ†ææ–‡æœ¬çš„é …ç›®å–ç”¨
 ```C++
 enum : size_t {
 	serial_number = 0,
@@ -120,7 +120,7 @@ std::cout << "sn: " << items[serial_number]
 ```
 
 ### sorted_array::sorted_array
-ªì©l¤Æ°}¦C±Æ§Ç
+åˆå§‹åŒ–é™£åˆ—æ’åº
 ```C++
 constexpr sorted_array(const sorted_array& x);
 constexpr sorted_array(const value_type(&x)[N]);
@@ -128,12 +128,12 @@ template<class OldCompare>
  constexpr sorted_array(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
 - **Template Parameters**  
-`OldCompare` - ¨Ó·½°}¦Cªº±Æ§Çªk  
+`OldCompare` - ä¾†æºé™£åˆ—çš„æ’åºæ³•  
 - **Parameters**  
-`x` - ¦P sorted_array ¤j¤pªº¨Ó·½¼Æ²Õ
+`x` - åŒ sorted_array å¤§å°çš„ä¾†æºæ•¸çµ„
 
 ### sorted_array::operator=
-½Æ»s¦P¤j¤p°}¦C¨Ã±Æ§Ç
+è¤‡è£½åŒå¤§å°é™£åˆ—ä¸¦æ’åº
 ```C++
 constexpr sorted_array& operator =(const sorted_array&);
 constexpr sorted_array& operator =(const value_type(&x)[N]);
@@ -141,132 +141,132 @@ template<class OldCompare>
  constexpr sorted_array& operator =(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
 - **Template Parameters**  
-`OldCompare` - ¨Ó·½°}¦Cªº±Æ§Çªk  
+`OldCompare` - ä¾†æºé™£åˆ—çš„æ’åºæ³•  
 - **Parameters**  
-`x` - ¦P sorted_array ¤j¤pªº¨Ó·½¼Æ²Õ
+`x` - åŒ sorted_array å¤§å°çš„ä¾†æºæ•¸çµ„
 
 ### sorted_array::size
-°}¦C¤j¤p
+é™£åˆ—å¤§å°
 ```C++
 constexpr size_t size() const;
 ```
 - **Return Value**  
-template parameter N¡C
+template parameter Nã€‚
 
 ### sorted_array::data
-°}¦C«ü¼Ğ
+é™£åˆ—æŒ‡æ¨™
 ```C++
 constexpr pointer data() const;
 ```
 - **Return Value**  
-°}¦C°_©l¦ì¸m¡C
+é™£åˆ—èµ·å§‹ä½ç½®ã€‚
 
 ### sorted_array::begin
-°_©l¦ì¸m
+èµ·å§‹ä½ç½®
 ```C++
 constexpr pointer begin() const;
 ```
 - **Return Value**  
-data()¡C
+data()ã€‚
 
 ### sorted_array::end
-¤À°t°Ï¶ô
+åˆ†é…å€å¡Š
 ```C++
 constexpr pointer end() const;
 ```
 - **Return Value**  
-data() + size()¡C
+data() + size()ã€‚
 
 ### sorted_array::operator[]
-³X°İ¤¸¯À
+è¨ªå•å…ƒç´ 
 ```C++
 constexpr const mapped_type& operator [](const key_type& k);
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼
 - **Return Value**  
-µ¥©ó k Áä­È¤¸¯Àªº¹ïÀ³­È¤Ş¥Î¡A­YµL¸Ó¤¸¯À±N³y¦¨«D¹w´Á¿ù»~¡C
+ç­‰æ–¼ k éµå€¼å…ƒç´ çš„å°æ‡‰å€¼å¼•ç”¨ï¼Œè‹¥ç„¡è©²å…ƒç´ å°‡é€ æˆéé æœŸéŒ¯èª¤ã€‚
 
 ### sorted_array::at
-³X°İ¤¸¯À¡AµL¥Ø¼Ğ«h¦^µL®Ä­È
+è¨ªå•å…ƒç´ ï¼Œç„¡ç›®æ¨™å‰‡å›ç„¡æ•ˆå€¼
 ```C++
 constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_type{}) const;
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È  
-`invalid` - µL¹ïÀ³®Éªº¦^¶Ç­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼  
+`invalid` - ç„¡å°æ‡‰æ™‚çš„å›å‚³å€¼
 - **Return Value**  
-µ¥©ó k Áä­È¤¸¯Àªº¹ïÀ³­È¡A­YµL¤¸¯À«h¦^¶Ç invalid ¤Ş¼Æ¡C
+ç­‰æ–¼ k éµå€¼å…ƒç´ çš„å°æ‡‰å€¼ï¼Œè‹¥ç„¡å…ƒç´ å‰‡å›å‚³ invalid å¼•æ•¸ã€‚
 
 ### sorted_array::find
-¨ú±o²Å¦X±ø¥ó­Èªº¶}©l¦ì¸m
+å–å¾—ç¬¦åˆæ¢ä»¶å€¼çš„é–‹å§‹ä½ç½®
 ```C++
 constexpr pointer find(const key_type& k) const;
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼
 - **Return Value**  
-µ¥©ó k Áä­È¤¸¯Àªº«ü¼Ğ¡A­YµL¤¸¯À«h¦^¶Ç end()¡C
+ç­‰æ–¼ k éµå€¼å…ƒç´ çš„æŒ‡æ¨™ï¼Œè‹¥ç„¡å…ƒç´ å‰‡å›å‚³ end()ã€‚
 
 ### sorted_array::lower_bound
-¨ú±oªñ¦ü±ø¥ó­Èªº¶}©l¦ì¸m
+å–å¾—è¿‘ä¼¼æ¢ä»¶å€¼çš„é–‹å§‹ä½ç½®
 ```C++
 constexpr pointer lower_bound(const key_type& k) const;
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼
 - **Return Value**  
-¤£¤p©ó k Áä­Èªº¤¸¯À«ü¼Ğ¡C
+ä¸å°æ–¼ k éµå€¼çš„å…ƒç´ æŒ‡æ¨™ã€‚
 
 ### sorted_array::upper_bound
-¨ú±oªñ¦ü±ø¥ó­Èªºµ²§ô¦ì¸m
+å–å¾—è¿‘ä¼¼æ¢ä»¶å€¼çš„çµæŸä½ç½®
 ```C++
 constexpr pointer upper_bound(const key_type& k) const;
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼
 - **Return Value**  
-¤j©ó k Áä­Èªº¤¸¯À«ü¼Ğ¡C
+å¤§æ–¼ k éµå€¼çš„å…ƒç´ æŒ‡æ¨™ã€‚
 
 ### sorted_array::equal_range
-¨ú±o²Å¦X±ø¥ó­Èªº¶}©l»Pµ²§ô¦ì¸m
+å–å¾—ç¬¦åˆæ¢ä»¶å€¼çš„é–‹å§‹èˆ‡çµæŸä½ç½®
 ```C++
 constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
 ```
 - **Parameters**  
-`k` - ¹ï¬Mªº¤¸¯ÀÁä­È
+`k` - å°æ˜ çš„å…ƒç´ éµå€¼
 - **Return Value**  
-µ¥®Ä©ó std::make__pair(lower_bound(k), upper_bound(k))¡C
+ç­‰æ•ˆæ–¼ std::make__pair(lower_bound(k), upper_bound(k))ã€‚
 
 ### sorted_array::range
-¨ú±o²Å¦X±ø¥ó½d³òªº¶}©l»Pµ²§ô¦ì¸m
+å–å¾—ç¬¦åˆæ¢ä»¶ç¯„åœçš„é–‹å§‹èˆ‡çµæŸä½ç½®
 ```C++
 constexpr std::pair<pointer, pointer> range(const key_type& min_key, const key_type& max_key) const;
 ```
 - **Parameters**  
-`min_key` - ¹ï¬M¤¸¯Àªº³Ì¤pÁä­È
-`max_key` - ¹ï¬M¤¸¯Àªº³Ì¤jÁä­È
+`min_key` - å°æ˜ å…ƒç´ çš„æœ€å°éµå€¼
+`max_key` - å°æ˜ å…ƒç´ çš„æœ€å¤§éµå€¼
 - **Return Value**  
-µ¥®Ä©ó std::make__pair(lower_bound(min_key), upper_bound(max_key))¡C
+ç­‰æ•ˆæ–¼ std::make__pair(lower_bound(min_key), upper_bound(max_key))ã€‚
 
 ___
 ## make_sorted_set
-«Øºc¶È§tÁä­Èªº¦³§Ç±`¼Æ°}¦C
+å»ºæ§‹åƒ…å«éµå€¼çš„æœ‰åºå¸¸æ•¸é™£åˆ—
 ```C++
 template<class T, class Compare = std::less<T>, size_t N>
 constexpr auto sorted_set(const T(&arr)[N]);
 ```
 
 - **Template Parameters**  
-`T` - ¶°¦Xªº¤¸¯À«¬§O  
-`Compare` - ¤G¤¸ predicate ¤j¤p¤ñ¸û¡Cex¡G±Æ§Ç¥Ñ¤p¨ì¤j `(a < b)`  
-`N` - °}¦C¤j¤p
+`T` - é›†åˆçš„å…ƒç´ å‹åˆ¥  
+`Compare` - äºŒå…ƒ predicate å¤§å°æ¯”è¼ƒã€‚exï¼šæ’åºç”±å°åˆ°å¤§ `(a < b)`  
+`N` - é™£åˆ—å¤§å°
 
 - **Function Parameters**  
-`arr` - ¶°¦Xªº©Ò¦³­È
+`arr` - é›†åˆçš„æ‰€æœ‰å€¼
 
 - **Return Value**  
-sorted_set\<N, T, Compare>¡C
+sorted_set\<N, T, Compare>ã€‚
 
 - **Example**  
 ```C++
@@ -288,23 +288,23 @@ for (auto v : prime100)
 
 ___
 ## make_sorted_map
-«Øºc¨ã¬M®g­Èªº¦³§Ç±`¼Æ°}¦C
+å»ºæ§‹å…·æ˜ å°„å€¼çš„æœ‰åºå¸¸æ•¸é™£åˆ—
 ```C++
 template<class Key, class Val, class Compare = std::less<Key>, size_t N>
 constexpr auto make_sorted_map(const std::pair<Key, Val>(&arr)[N]);
 ```
 
 - **Template Parameters**  
-`Key` - ±Æ§Ç¥ÎÁä­È«¬§O  
-`Val` - ¬M®gÁä­Èªº«¬§O  
-`Compare` - ¤G¤¸ predicate ¤j¤p¤ñ¸û¡Cex¡G±Æ§Ç¥Ñ¤p¨ì¤j `(a < b)`  
-`N` - °}¦C¤j¤p
+`Key` - æ’åºç”¨éµå€¼å‹åˆ¥  
+`Val` - æ˜ å°„éµå€¼çš„å‹åˆ¥  
+`Compare` - äºŒå…ƒ predicate å¤§å°æ¯”è¼ƒã€‚exï¼šæ’åºç”±å°åˆ°å¤§ `(a < b)`  
+`N` - é™£åˆ—å¤§å°
 
 - **Function Parameters**  
-`arr` - ¶°¦Xªº©Ò¦³­È
+`arr` - é›†åˆçš„æ‰€æœ‰å€¼
 
 - **Return Value**  
-sorted_map\<N, Key, Val, Compare>¡C
+sorted_map\<N, Key, Val, Compare>ã€‚
 
 - **Example**  
 ```C++
@@ -340,7 +340,7 @@ for (auto v : field__map)
 
 ___
 ## merge
-¦X¨Ö¨Ã­«·s±Æ§Ç¨â²Õ¼Æ²Õ
+åˆä½µä¸¦é‡æ–°æ’åºå…©çµ„æ•¸çµ„
 ```C++
 template<class NewCompare = void, class Key, class Val, size_t N1, class Compare1, size_t N2, class Compare2>
 constexpr auto merge(const sorted_array<N1, Key, Val, Compare1>& x, const sorted_array<N2, Key, Val, Compare2>& y);
@@ -359,20 +359,20 @@ constexpr auto merge(const Key(&y)[N2], const sorted_array<N1, Key, void, Compar
 ```
 
 - **Template Parameters**  
-`NewCompare` - ·sªº±Æ§Ç predicate ¡A¦pªG¬° void «h¥H¿é¤J°Ñ¼Æªº±Æ§Ç±Æ§Ç  
-`Key` - ±Æ§Ç¥ÎÁä­È«¬§O  
-`Val` - ¬M®gÁä­Èªº«¬§O  
-`N1` - ²Ä¤@¶µ°Ñ¼Æªº¼Æ²Õ¤j¤p  
-`Compare1` - ²Ä¤@¶µ°Ñ¼Æªº±Æ§ÇÃş«¬  
-`N2` - ²Ä¤G¶µ°Ñ¼Æªº¼Æ²Õ¤j¤p  
-`Compare2` - ²Ä¤G¶µ°Ñ¼Æªº±Æ§ÇÃş«¬  
+`NewCompare` - æ–°çš„æ’åº predicate ï¼Œå¦‚æœç‚º void å‰‡ä»¥è¼¸å…¥åƒæ•¸çš„æ’åºæ’åº  
+`Key` - æ’åºç”¨éµå€¼å‹åˆ¥  
+`Val` - æ˜ å°„éµå€¼çš„å‹åˆ¥  
+`N1` - ç¬¬ä¸€é …åƒæ•¸çš„æ•¸çµ„å¤§å°  
+`Compare1` - ç¬¬ä¸€é …åƒæ•¸çš„æ’åºé¡å‹  
+`N2` - ç¬¬äºŒé …åƒæ•¸çš„æ•¸çµ„å¤§å°  
+`Compare2` - ç¬¬äºŒé …åƒæ•¸çš„æ’åºé¡å‹  
 
 - **Function Parameters**  
-`x` - ²Ä¤@¶µ°Ñ¼Æ  
-`y` - ²Ä¤G¶µ°Ñ¼Æ
+`x` - ç¬¬ä¸€é …åƒæ•¸  
+`y` - ç¬¬äºŒé …åƒæ•¸
 
 - **Return Value**  
-sorted_map\<N1 + N2, Key, Val, NewCompare>¡C
+sorted_map\<N1 + N2, Key, Val, NewCompare>ã€‚
 
 - **Example**  
 ```C++

@@ -1,11 +1,11 @@
 # <buddy.hpp>
-Buddy memory allocation ¹ê§@
+Buddy memory allocation å¯¦ä½œ
 
 ## Classes
 | Name | Description |
 | --- | --- |
 | [buddy](#buddy) | Buddy memory allocation |
-| [simple_buddy](#simple_buddy) | buddyªº¦A«Ê¸Ë¡A§óÂ²³æªº¤À°t©Ò»İ°O¾ĞÅé¤j¤p»P¦ì²¾¦ì¸m |
+| [simple_buddy](#simple_buddy) | buddyçš„å†å°è£ï¼Œæ›´ç°¡å–®çš„åˆ†é…æ‰€éœ€è¨˜æ†¶é«”å¤§å°èˆ‡ä½ç§»ä½ç½® |
 
 ___
 ## buddy
@@ -16,33 +16,33 @@ template<uint8_t Level>
 class buddy;
 ```
 
-³o¸Ì°Ñ¦Ò¤F [wuwenbin](https://github.com/wuwenbin) ªº [buddy2](https://github.com/wuwenbin/buddy2) ºâªk¡A  
-«Ø¥ß¤@­Ó full binary tree ªº°}¦C¡A  
-child ¥Nªí parent ªº¤À³ÎªÅ¶¡¡A  
-node ¬ö¿ı subtree ¥i¤À°tªº³Ì¤jªÅ¶¡¡A  
-allocate ®É¥Ñ root ©¹ leaves §ä¨ì»İ­n¤j¤pªº¤À°tªÅ¶¡¡A  
-release ®É¥Ñ leaf ©¹ root §ä¤w¸g¤À°tªºªÅ¶¡¡C
+é€™è£¡åƒè€ƒäº† [wuwenbin](https://github.com/wuwenbin) çš„ [buddy2](https://github.com/wuwenbin/buddy2) ç®—æ³•ï¼Œ  
+å»ºç«‹ä¸€å€‹ full binary tree çš„é™£åˆ—ï¼Œ  
+child ä»£è¡¨ parent çš„åˆ†å‰²ç©ºé–“ï¼Œ  
+node ç´€éŒ„ subtree å¯åˆ†é…çš„æœ€å¤§ç©ºé–“ï¼Œ  
+allocate æ™‚ç”± root å¾€ leaves æ‰¾åˆ°éœ€è¦å¤§å°çš„åˆ†é…ç©ºé–“ï¼Œ  
+release æ™‚ç”± leaf å¾€ root æ‰¾å·²ç¶“åˆ†é…çš„ç©ºé–“ã€‚
 
 ### Template parameters
 | Name | Description |
 | --- | --- |
-| Level | °Ï¶ô¼h¯Å¼Æ |
+| Level | å€å¡Šå±¤ç´šæ•¸ |
 
 ### Member constants
 | Name | Description |
 | --- | --- |
-| max_level | °Ï¶ô³Ì¤j¼h¯Å |
-| max_size | 2^max_level^ ¬°¥i¤À°t³Ì¤jªº°Ï¶ô³æ¦ì¼Æ |
+| max_level | å€å¡Šæœ€å¤§å±¤ç´š |
+| max_size | 2^max_level^ ç‚ºå¯åˆ†é…æœ€å¤§çš„å€å¡Šå–®ä½æ•¸ |
 
 ### Member functions
 | Name | Description |
 | --- | --- |
-| [empty](#buddyempty) | µL¤À°t¥ô¦ó°Ï¶ô |
-| [full](#buddyfull) | µL¥i¥ÎªÅ¶¡ |
-| [allocate](#buddyallocate) | ¤À°t°Ï¶ô |
-| [allocate_by_pow2](#buddyallocate_by_pow2) | ¤À°t 2^n^ ¤j¤p°Ï¶ô |
-| [release](#buddyrelease) | ÄÀ©ñ°Ï¶ô |
-| [release_by_pow2](#buddyrelease_by_pow2) | ®Ú¾Ú allocate_by_pow2 ¨ÓÄÀ©ñ°Ï¶ô |
+| [empty](#buddyempty) | ç„¡åˆ†é…ä»»ä½•å€å¡Š |
+| [full](#buddyfull) | ç„¡å¯ç”¨ç©ºé–“ |
+| [allocate](#buddyallocate) | åˆ†é…å€å¡Š |
+| [allocate_by_pow2](#buddyallocate_by_pow2) | åˆ†é… 2^n^ å¤§å°å€å¡Š |
+| [release](#buddyrelease) | é‡‹æ”¾å€å¡Š |
+| [release_by_pow2](#buddyrelease_by_pow2) | æ ¹æ“š allocate_by_pow2 ä¾†é‡‹æ”¾å€å¡Š |
 
 ### Example
 ```C++
@@ -70,63 +70,63 @@ delete[]block;
 ```
 
 ### buddy::empty
-µL¤À°t¥ô¦ó°Ï¶ô
+ç„¡åˆ†é…ä»»ä½•å€å¡Š
 ```C++
 bool empty() const;
 ```
 - **Return Value**  
-`true` ¬°©|¥¼¨Ï¥Î¡A§_«h¬° `false` ¡C
+`true` ç‚ºå°šæœªä½¿ç”¨ï¼Œå¦å‰‡ç‚º `false` ã€‚
 
 ### buddy::full
-µL¥i¥ÎªÅ¶¡
+ç„¡å¯ç”¨ç©ºé–“
 ```C++
 bool full() const;
 ```
 - **Return Value**  
-`true` ¬°µLªÅ¾lªÅ¶¡¡A§_«h¬° `false` ¡C
+`true` ç‚ºç„¡ç©ºé¤˜ç©ºé–“ï¼Œå¦å‰‡ç‚º `false` ã€‚
 
 ### buddy::allocate
-¤À°t°Ï¶ô
+åˆ†é…å€å¡Š
 ```C++
 size_t allocate(size_t siz);
 ```
 - **Parameters**  
-`siz` - ½Ğ¨D©Ò»İªÅ¶¡¤j¤p
+`siz` - è«‹æ±‚æ‰€éœ€ç©ºé–“å¤§å°
 - **Return Value**  
-¦pªG¦¨¥\«h¦^¶Ç±q Buffer °_©l³B¦ì²¾ªº³æ¦ì¤j¤p¼Æ¡A§_«h¦^¶Ç dlou::none¡C
+å¦‚æœæˆåŠŸå‰‡å›å‚³å¾ Buffer èµ·å§‹è™•ä½ç§»çš„å–®ä½å¤§å°æ•¸ï¼Œå¦å‰‡å›å‚³ dlou::noneã€‚
 
 ### buddy::allocate_by_pow2
-¤À°t 2^n^ ¤j¤p°Ï¶ô
+åˆ†é… 2^n^ å¤§å°å€å¡Š
 ```C++
 size_t allocate_by_pow2(uint8_t exp);
 ```
 - **Parameters**  
-`exp` - ©Ò»İ 2^n^ ¤j¤pªÅ¶¡
+`exp` - æ‰€éœ€ 2^n^ å¤§å°ç©ºé–“
 - **Return Value**  
-¦pªG¦¨¥\«h¦^¶Ç±q Buffer °_©l³B¦ì²¾ªº³æ¦ì¤j¤p¼Æ¡A§_«h¦^¶Ç dlou::none¡C
+å¦‚æœæˆåŠŸå‰‡å›å‚³å¾ Buffer èµ·å§‹è™•ä½ç§»çš„å–®ä½å¤§å°æ•¸ï¼Œå¦å‰‡å›å‚³ dlou::noneã€‚
 
 ### buddy::release
-ÄÀ©ñ°Ï¶ô
+é‡‹æ”¾å€å¡Š
 ```C++
 void release(size_t pos);
 void release(size_t pos, size_t siz);
 ```
 - **Parameters**  
-`pos` - allocateªº¦^¶Ç­È  
-`siz` - allocateªº°Ñ¼Æ­È
+`pos` - allocateçš„å›å‚³å€¼  
+`siz` - allocateçš„åƒæ•¸å€¼
 
 ### buddy::release_by_pow2
-®Ú¾Ú allocate_by_pow2 ¨ÓÄÀ©ñ°Ï¶ô
+æ ¹æ“š allocate_by_pow2 ä¾†é‡‹æ”¾å€å¡Š
 ```C++
 void release_by_pow2(size_t pos, uint8_t exp);
 ```
 - **Parameters**  
-`pos` - allocate_by_pow2 ªº¦^¶Ç­È  
-`exp` - allocate_by_pow2 ªº°Ñ¼Æ­È
+`pos` - allocate_by_pow2 çš„å›å‚³å€¼  
+`exp` - allocate_by_pow2 çš„åƒæ•¸å€¼
 
 ___
 ## simple_buddy
-buddyªº¦A«Ê¸Ë¡A§óÂ²³æªº¤À°t©Ò»İ°O¾ĞÅé¤j¤p»P¦ì²¾¦ì¸m
+buddyçš„å†å°è£ï¼Œæ›´ç°¡å–®çš„åˆ†é…æ‰€éœ€è¨˜æ†¶é«”å¤§å°èˆ‡ä½ç§»ä½ç½®
 ```C++
 template<size_t MinSize, size_t MaxSize>
 class simple_buddy;
@@ -135,23 +135,23 @@ class simple_buddy;
 ### Template parameters
 | Name | Description |
 | --- | --- |
-| MinSize | ½Ğ¨Dªº³Ì¤p°Ï¶ô¤j¤p |
-| MaxSize | ½Ğ¨Dªº³Ì¤j°Ï¶ô¤j¤p |
+| MinSize | è«‹æ±‚çš„æœ€å°å€å¡Šå¤§å° |
+| MaxSize | è«‹æ±‚çš„æœ€å¤§å€å¡Šå¤§å° |
 
 ### Member constants
 | Name | Description |
 | --- | --- |
-| min_size | ¥i¤À°t³Ì¤pªº°Ï¶ô¤j¤p |
-| max_size | ¥i¤À°t³Ì¤jªº°Ï¶ô¤j¤p |
+| min_size | å¯åˆ†é…æœ€å°çš„å€å¡Šå¤§å° |
+| max_size | å¯åˆ†é…æœ€å¤§çš„å€å¡Šå¤§å° |
 | max_level | log~2~(max_size / min_size) |
 
 ### Member functions
 | Name | Description |
 | --- | --- |
-| [empty](#simple_buddyempty) | µL¤À°t¥ô¦ó°Ï¶ô |
-| [full](#simple_buddyfull) | µL¥i¥ÎªÅ¶¡ |
-| [allocate](#simple_buddyallocate) | ¤À°t°Ï¶ô |
-| [release](#simple_buddyrelease) | ÄÀ©ñ°Ï¶ô |
+| [empty](#simple_buddyempty) | ç„¡åˆ†é…ä»»ä½•å€å¡Š |
+| [full](#simple_buddyfull) | ç„¡å¯ç”¨ç©ºé–“ |
+| [allocate](#simple_buddyallocate) | åˆ†é…å€å¡Š |
+| [release](#simple_buddyrelease) | é‡‹æ”¾å€å¡Š |
 
 ### Example
 ```C++
@@ -171,38 +171,38 @@ delete[]block;
 ```
 
 ### simple_buddy::empty
-µL¤À°t¥ô¦ó°Ï¶ô
+ç„¡åˆ†é…ä»»ä½•å€å¡Š
 ```C++
 bool empty() const;
 ```
 - **Return Value**  
-`true` ¬°©|¥¼¨Ï¥Î¡A§_«h¬° `false` ¡C
+`true` ç‚ºå°šæœªä½¿ç”¨ï¼Œå¦å‰‡ç‚º `false` ã€‚
 
 ### simple_buddy::full
-µL¥i¥ÎªÅ¶¡
+ç„¡å¯ç”¨ç©ºé–“
 ```C++
 bool full() const;
 ```
 - **Return Value**  
-`true` ¬°µLªÅ¾lªÅ¶¡¡A§_«h¬° `false` ¡C
+`true` ç‚ºç„¡ç©ºé¤˜ç©ºé–“ï¼Œå¦å‰‡ç‚º `false` ã€‚
 
 ### simple_buddy::allocate
-¤À°t°Ï¶ô
+åˆ†é…å€å¡Š
 ```C++
 size_t allocate(size_t siz);
 ```
 - **Parameters**  
-`siz` - ½Ğ¨D©Ò»İªÅ¶¡¤j¤p
+`siz` - è«‹æ±‚æ‰€éœ€ç©ºé–“å¤§å°
 - **Return Value**  
-¦pªG¦¨¥\«h¦^¶Ç±q Buffer °_©l³B¦ì²¾ªº Bytes ­È¡A§_«h¦^¶Ç dlou::none¡C
+å¦‚æœæˆåŠŸå‰‡å›å‚³å¾ Buffer èµ·å§‹è™•ä½ç§»çš„ Bytes å€¼ï¼Œå¦å‰‡å›å‚³ dlou::noneã€‚
 
 ### simple_buddy::release
-ÄÀ©ñ°Ï¶ô
+é‡‹æ”¾å€å¡Š
 ```C++
 void release(size_t pos);
 void release(size_t pos, size_t siz);
 ```
 - **Parameters**  
-`pos` - allocate ªº¦^¶Ç­È  
-`siz` - allocate ªº°Ñ¼Æ­È
+`pos` - allocate çš„å›å‚³å€¼  
+`siz` - allocate çš„åƒæ•¸å€¼
 
