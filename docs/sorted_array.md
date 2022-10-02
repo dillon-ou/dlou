@@ -60,12 +60,12 @@ class sorted_array;
 | Name | Description |
 | --- | --- |
 | [(constructor)](#sorted_arraysorted_array) | 初始化陣列排序 |
-| [operator=](#sorted_arrayoperator-1) | 複製同大小陣列並排序 |
+| [operator=](#sorted_arrayoperator) | 複製同大小陣列並排序 |
 | [size](#sorted_arraysize) | 陣列大小 |
 | [data](#sorted_arraydata) | 陣列指標 |
 | [begin](#sorted_arraybegin) | 起始位置 |
 | [end](#sorted_arrayend) | 結束位置 |
-| [operator[]](#sorted_arrayoperator-2) | 訪問元素 |
+| [operator[]](#sorted_arrayoperator-1) | 訪問元素 |
 | [at](#sorted_arrayat) | 訪問元素，無目標則回無效值 |
 | [find](#sorted_arrayfind) | 取得符合條件值的開始位置 |
 | [lower_bound](#sorted_arraylower_bound) | 取得近似條件值的開始位置 |
