@@ -5,18 +5,14 @@
 * 保留 pointer 的使用以兼容 C 語言庫
 * 減少 dynamic memory 的使用
 * 通過前置處理增進運行時效能
-* 預設不驗證引數的正確性，由使用者驗證避免重複驗證
+* 預設不驗證引數的正確性，由使用者驗證以避免重複驗證
 
 ## Usage
-這是 C++ Header only library  
-無須編譯直接複製 include 目錄至安裝路經即可使用  
-設置在編譯項 include directories 後，在程式中 `#include <dlou/**.hpp>`
+這是 C++ Header only library ，直接複製 /include 目錄至安裝路經。  
+設置 include directories 後，在程式中 `#include <dlou/**.hpp>` 使用庫。
 
-## Feature support testing
-1. 可通過 `#include <macro.hpp>` 檢測是否支援程式庫  
-2. 可通過下列巨集檢測 C++ Compiler 是否支援本程式庫
-	* `#ifdef __cpp_constexpr` (since C++11)
-	* `#ifdef __cpp_if_constexpr` (since C++17)
+## Support
+通過 `#include <macro.hpp>` 檢測是否支援程式庫  
 
 ## Reference
 | Include | Description |

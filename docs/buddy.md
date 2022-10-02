@@ -69,8 +69,7 @@ if (buf1)
 delete[]block;
 ```
 
-#### Methods
-##### buddy::empty
+#### buddy::empty
 無分配任何區塊
 ```C++
 bool empty() const;
@@ -78,7 +77,7 @@ bool empty() const;
 - **Return Value**  
 `true` 為尚未使用，否則為 `false` 。
 
-##### buddy::full
+#### buddy::full
 無可用空間
 ```C++
 bool full() const;
@@ -86,7 +85,7 @@ bool full() const;
 - **Return Value**  
 `true` 為無空餘空間，否則為 `false` 。
 
-##### buddy::allocate
+#### buddy::allocate
 分配區塊
 ```C++
 size_t allocate(size_t siz);
@@ -96,7 +95,7 @@ size_t allocate(size_t siz);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的單位大小數，否則回傳 dlou::none。
 
-##### buddy::allocate_by_pow2
+#### buddy::allocate_by_pow2
 分配 2^n^ 大小區塊
 ```C++
 size_t allocate_by_pow2(uint8_t exp);
@@ -106,7 +105,7 @@ size_t allocate_by_pow2(uint8_t exp);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的單位大小數，否則回傳 dlou::none。
 
-##### buddy::release
+#### buddy::release
 釋放區塊
 ```C++
 void release(size_t pos);
@@ -116,7 +115,7 @@ void release(size_t pos, size_t siz);
 `pos` - allocate的回傳值  
 `siz` - allocate的參數值
 
-##### buddy::release_by_pow2
+#### buddy::release_by_pow2
 根據 allocate_by_pow2 來釋放區塊
 ```C++
 void release_by_pow2(size_t pos, uint8_t exp);
@@ -171,8 +170,7 @@ if (buf)
 delete[]block;
 ```
 
-#### Methods
-##### simple_buddy::empty
+#### simple_buddy::empty
 無分配任何區塊
 ```C++
 bool empty() const;
@@ -180,7 +178,7 @@ bool empty() const;
 - **Return Value**  
 `true` 為尚未使用，否則為 `false` 。
 
-##### simple_buddy::full
+#### simple_buddy::full
 無可用空間
 ```C++
 bool full() const;
@@ -188,7 +186,7 @@ bool full() const;
 - **Return Value**  
 `true` 為無空餘空間，否則為 `false` 。
 
-##### simple_buddy::allocate
+#### simple_buddy::allocate
 分配區塊
 ```C++
 size_t allocate(size_t siz);
@@ -198,7 +196,7 @@ size_t allocate(size_t siz);
 - **Return Value**  
 如果成功則回傳從 Buffer 起始處位移的 Bytes 值，否則回傳 dlou::none。
 
-##### simple_buddy::release
+#### simple_buddy::release
 釋放區塊
 ```C++
 void release(size_t pos);

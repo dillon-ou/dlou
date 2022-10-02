@@ -119,8 +119,7 @@ std::cout << "sn: " << items[serial_number]
 	<< std::endl;
 ```
 
-#### Methods
-##### sorted_array::sorted_array
+#### sorted_array::sorted_array
 初始化陣列排序
 ```C++
 constexpr sorted_array(const sorted_array& x);
@@ -133,7 +132,7 @@ template<class OldCompare>
 - **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
-##### sorted_array::operator=
+#### sorted_array::operator=
 複製同大小陣列並排序
 ```C++
 constexpr sorted_array& operator =(const sorted_array&);
@@ -146,7 +145,7 @@ template<class OldCompare>
 - **Parameters**  
 `x` - 同 sorted_array 大小的來源數組
 
-##### sorted_array::size
+#### sorted_array::size
 陣列大小
 ```C++
 constexpr size_t size() const;
@@ -154,7 +153,7 @@ constexpr size_t size() const;
 - **Return Value**  
 template parameter N。
 
-##### sorted_array::data
+#### sorted_array::data
 陣列指標
 ```C++
 constexpr pointer data() const;
@@ -162,7 +161,7 @@ constexpr pointer data() const;
 - **Return Value**  
 陣列起始位置。
 
-##### sorted_array::begin
+#### sorted_array::begin
 起始位置
 ```C++
 constexpr pointer begin() const;
@@ -170,7 +169,7 @@ constexpr pointer begin() const;
 - **Return Value**  
 data()。
 
-##### sorted_array::end
+#### sorted_array::end
 分配區塊
 ```C++
 constexpr pointer end() const;
@@ -178,7 +177,7 @@ constexpr pointer end() const;
 - **Return Value**  
 data() + size()。
 
-##### sorted_array::operator[]
+#### sorted_array::operator[]
 訪問元素
 ```C++
 constexpr const mapped_type& operator [](const key_type& k);
@@ -188,7 +187,7 @@ constexpr const mapped_type& operator [](const key_type& k);
 - **Return Value**  
 等於 k 鍵值元素的對應值引用，若無該元素將造成非預期錯誤。
 
-##### sorted_array::at
+#### sorted_array::at
 訪問元素，無目標則回無效值
 ```C++
 constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_type{}) const;
@@ -199,7 +198,7 @@ constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_
 - **Return Value**  
 等於 k 鍵值元素的對應值，若無元素則回傳 invalid 引數。
 
-##### sorted_array::find
+#### sorted_array::find
 取得符合條件值的開始位置
 ```C++
 constexpr pointer find(const key_type& k) const;
@@ -209,7 +208,7 @@ constexpr pointer find(const key_type& k) const;
 - **Return Value**  
 等於 k 鍵值元素的指標，若無元素則回傳 end()。
 
-##### sorted_array::lower_bound
+#### sorted_array::lower_bound
 取得近似條件值的開始位置
 ```C++
 constexpr pointer lower_bound(const key_type& k) const;
@@ -219,7 +218,7 @@ constexpr pointer lower_bound(const key_type& k) const;
 - **Return Value**  
 不小於 k 鍵值的元素指標。
 
-##### sorted_array::upper_bound
+#### sorted_array::upper_bound
 取得近似條件值的結束位置
 ```C++
 constexpr pointer upper_bound(const key_type& k) const;
@@ -229,7 +228,7 @@ constexpr pointer upper_bound(const key_type& k) const;
 - **Return Value**  
 大於 k 鍵值的元素指標。
 
-##### sorted_array::equal_range
+#### sorted_array::equal_range
 取得符合條件值的開始與結束位置
 ```C++
 constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
@@ -239,7 +238,7 @@ constexpr std::pair<pointer, pointer> equal_range(const key_type& k) const;
 - **Return Value**  
 等效於 std::make__pair(lower_bound(k), upper_bound(k))。
 
-##### sorted_array::range
+#### sorted_array::range
 取得符合條件範圍的開始與結束位置
 ```C++
 constexpr std::pair<pointer, pointer> range(const key_type& min_key, const key_type& max_key) const;
