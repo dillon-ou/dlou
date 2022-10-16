@@ -4,6 +4,8 @@
 
 #include <cstdint>
 #include <type_traits>
+#include <limits>
+#include <array>
 
 #ifdef __cpp_lib_int_pow2
 #include <bit>
@@ -11,7 +13,57 @@
 
 namespace dlou {
 
+namespace _internal {
+	template<size_t Bytes>
+	struct integer {
+		using type = void;
+	};
+
+	template<>
+	struct integer<1> {
+		using type = signed char;
+		static_assert(1 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<2> {
+		using type = short;
+		static_assert(2 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<4> {
+		using type = long;
+		static_assert(4 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<8> {
+		using type = long long;
+		static_assert(8 == sizeof(type), "Check sizeof(integer)");
+	};
+}
+
+
 static constexpr uint8_t invalid_exp = -1;
+
+namespace bit {
+
+template<typename T>
+DLOU_REQUIRES(std::is_integral<T>::value)
+constexpr T reverse(T v)
+{
+	DLOU_REQUIRES_IN(std::is_integral<T>::value);
+
+	T ret = 0;
+	for (uint8_t i = 0; i < 8 * sizeof(T); ++i) {
+		ret <<= 1;
+		ret |= v & T(1);
+		v >>= 1;
+	}
+
+	return ret;
+}
 
 // asm : bsf
 // gcc : __builtin_ctz 
@@ -78,6 +130,13 @@ constexpr uint8_t bsr(T v)
 #endif//__cpp_lib_int_pow2
 }
 
+} // namespace bit
+
+#ifndef DLOU_NO_ALIAS
+using bit::bsf;
+using bit::bsr;
+#endif
+
 
 namespace base2 {
 
@@ -106,7 +165,13 @@ constexpr uint8_t log(T v)
 	if constexpr (std::is_signed<T>::value)
 		if (v < T(0))
 			return invalid_exp;
-	return bsr(v);
+	return bit::bsr(v);
+}
+
+template<typename T>
+constexpr uint8_t log_ceil(T v)
+{
+	return log(v) + !ispow(v);
 }
 
 // std : bit_ceil
@@ -162,8 +227,17 @@ constexpr T floor(T v)
 
 DLOU_DEFINED_ALIAS_FUNCTION(ispow2_i, base2::ispow)
 DLOU_DEFINED_ALIAS_FUNCTION(log2_i, base2::log)
+DLOU_DEFINED_ALIAS_FUNCTION(log2_ceil_i, base2::log_ceil)
 DLOU_DEFINED_ALIAS_FUNCTION(pow2_ceil_i, base2::ceil)
 DLOU_DEFINED_ALIAS_FUNCTION(pow2_floor_i, base2::floor)
+
+
+template<size_t Bytes>
+using integer_type = typename _internal::integer<base2::ceil(Bytes)>::type;
+
+template<size_t Bytes>
+using uinteger_type = typename std::make_unsigned<integer_type<Bytes>>::type;
+
 
 namespace zigzag {
 	template<typename T>
