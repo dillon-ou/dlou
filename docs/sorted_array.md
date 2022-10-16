@@ -51,7 +51,7 @@ class sorted_array;
 | --- | --- |
 | key_type | 鍵值 (Key) 型別 |
 | mapped_type | 訪問元素的型別，Val != void ? Val : Key |
-| key_compare | 鍵值比對 predicate  |
+| key_compare | 鍵值比對 predicate |
 | value_type | 搜尋與尋訪值的型別 |
 | reference | value_type 的常數引數 |
 | pointer | value_type 的常數指標 |
@@ -82,9 +82,11 @@ class sorted_array;
 初始化陣列排序
 ```C++
 constexpr sorted_array(const sorted_array& x);
+
 constexpr sorted_array(const value_type(&x)[N]);
+
 template<class OldCompare>
- constexpr sorted_array(const sorted_array<N, Key, Val, OldCompare>& x);
+constexpr sorted_array(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
 - **Template Parameters**  
 `OldCompare` - 來源陣列的排序法  
@@ -95,9 +97,11 @@ template<class OldCompare>
 複製同大小陣列並排序
 ```C++
 constexpr sorted_array& operator =(const sorted_array&);
+
 constexpr sorted_array& operator =(const value_type(&x)[N]);
+
 template<class OldCompare>
- constexpr sorted_array& operator =(const sorted_array<N, Key, Val, OldCompare>& x);
+constexpr sorted_array& operator =(const sorted_array<N, Key, Val, OldCompare>& x);
 ```
 - **Template Parameters**  
 `OldCompare` - 來源陣列的排序法  
@@ -129,7 +133,7 @@ constexpr pointer begin() const;
 data()。
 
 ### sorted_array::end
-分配區塊
+結束位置
 ```C++
 constexpr pointer end() const;
 ```

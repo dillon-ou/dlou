@@ -21,13 +21,19 @@
 | integer.hpp | 整數算法 |
 | [macro.hpp](docs/macro.md) | Marco 定義與功能設置註記 |
 | [sorted_array.hpp](docs/sorted_array.md) | 可供搜尋的固定大小排序陣列 |
+| [hash_table.hpp](docs/hash_table.md) | 靜態雜湊表 |
 
 ## Index
 ### B
 [buddy](docs/buddy.md#buddy)  
+### C  
+[chained_hash_table](docs/hash_table.md#chained_hash_table)  
 ### D
+[dhash_table](docs/hash_table.md#dhash_table)  
 [DLOU_CHECK_ARGS](docs/macro.md)  
 [DLOU_NO_ALIAS](docs/macro.md)  
+### H  
+[hash_table](docs/hash_table.md#hash_table)  
 ### M
 [make_sorted_map](docs/sorted_array.md#make_sorted_map)  
 [make_sorted_set](docs/sorted_array.md#make_sorted_set)  
