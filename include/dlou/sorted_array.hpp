@@ -1,5 +1,7 @@
 #pragma once
 
+#include "macro.hpp"
+
 #include <cstddef>
 
 #include <type_traits>
