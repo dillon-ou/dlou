@@ -90,8 +90,9 @@ public:
 	}
 
 	constexpr pointer find(const key_type& k) const {
+		const auto invalid = end();
 		auto ret = lower_bound(k);
-		if (Compare{}(k, get_key(*ret)))
+		if (invalid == ret || Compare{}(k, get_key(*ret)))
 			return end();
 		return ret;
 	}
