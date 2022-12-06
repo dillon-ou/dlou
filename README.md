@@ -23,6 +23,7 @@
 | [sorted_array.hpp](docs/sorted_array.md) | 可供搜尋的固定大小排序陣列 |
 | [hash_table.hpp](docs/hash_table.md) | 靜態雜湊表 |
 | functor_array.hpp | Function objects 索引查詢 |
+| functor_map.hpp | Function objects 鍵值查詢 |
 
 ## Index
 ### B
