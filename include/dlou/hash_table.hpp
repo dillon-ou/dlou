@@ -260,7 +260,7 @@ private:
 // Double Hashing
 template<size_t N, class Key, class Val = void, class Hash = std::hash<Key>, class Hash2 = std::hash<Key>, class Pred = std::equal_to<Key>, size_t Slots = N * 2>
 DLOU_REQUIRES(N > 0 && Slots >= N)
-class dhash_table
+class double_hash_table
 {
 public:
 	static const size_t slot_count = base2::ceil(Slots);
@@ -278,25 +278,25 @@ private:
 	static constexpr nodepos invalid_pos = ~nodepos(0);
 
 public:
-	constexpr dhash_table(const dhash_table&) = default;
-	constexpr dhash_table& operator =(const dhash_table&) = default;
+	constexpr double_hash_table(const double_hash_table&) = default;
+	constexpr double_hash_table& operator =(const double_hash_table&) = default;
 
-	constexpr dhash_table(const value_type(&x)[N]) {
+	constexpr double_hash_table(const value_type(&x)[N]) {
 		clone(x);
 	}
 
-	constexpr dhash_table& operator =(const value_type(&x)[N]) {
+	constexpr double_hash_table& operator =(const value_type(&x)[N]) {
 		clone(x);
 		return *this;
 	}
 
 	template<class OldHash, class OldHash2, class OldPred, size_t OldSlots>
-	constexpr dhash_table(const dhash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x) {
+	constexpr double_hash_table(const double_hash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x) {
 		clone(x.data());
 	}
 
 	template<class OldHash, class OldHash2, class OldPred, size_t OldSlots>
-	constexpr dhash_table& operator =(const dhash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x) {
+	constexpr double_hash_table& operator =(const double_hash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x) {
 		clone(x.data());
 		return *this;
 	}

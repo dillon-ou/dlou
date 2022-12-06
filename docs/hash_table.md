@@ -6,7 +6,7 @@
 | --- | --- |
 | [chained_hash_table](#chained_hash_table) | Separate Chaining Hashing 雜湊表 |
 | [hash_table](#hash_table) | Open Addressing - Quadratic Probing 雜湊表 |
-| [dhash_table](#dhash_table) | Open Addressing - Double Hashing 雜湊表 |
+| [double_hash_table](#double_hash_table) | Open Addressing - Double Hashing 雜湊表 |
 
 ## Functions
 | Name | Description |
@@ -280,7 +280,7 @@ constexpr pointer find(const key_type& k) const;
 等於 k 鍵值元素的指標，若無元素則回傳 end()。
 
 ___
-## dhash_table
+## double_hash_table
 Open Addressing - Double Hashing 雜湊表
 
 ```C++
@@ -292,7 +292,7 @@ template<
 	class Hash2 = std::hash<Key>,
 	class Pred = std::equal_to<Key>,
 	size_t Slots = base2::ceil<size_t>(N * 2)>
-class dhash_table;
+class double_hash_table;
 ```
 
 ### Template parameters
@@ -321,25 +321,25 @@ class dhash_table;
 ### Member functions
 | Name | Description |
 | --- | --- |
-| [(constructor)](#dhash_tabledhash_table) | Hash Table 建構 |
-| [operator=](#dhash_tableoperator) | 重新設定 Hash Table |
-| [size](#dhash_tablesize) | 元素數量 |
-| [data](#dhash_tabledata) | 儲存的元素陣列指標 |
-| [begin](#dhash_tablebegin) | 起始位置 |
-| [end](#dhash_tableend) | 結束位置 |
-| [operator[]](#dhash_tableoperator-1) | 訪問元素 |
-| [at](#dhash_tableat) | 訪問元素，無目標則回無效值 |
-| [find](#dhash_tablefind) | 取得符合條件值的位置 |
+| [(constructor)](#double_hash_tabledouble_hash_table) | Hash Table 建構 |
+| [operator=](#double_hash_tableoperator) | 重新設定 Hash Table |
+| [size](#double_hash_tablesize) | 元素數量 |
+| [data](#double_hash_tabledata) | 儲存的元素陣列指標 |
+| [begin](#double_hash_tablebegin) | 起始位置 |
+| [end](#double_hash_tableend) | 結束位置 |
+| [operator[]](#double_hash_tableoperator-1) | 訪問元素 |
+| [at](#double_hash_tableat) | 訪問元素，無目標則回無效值 |
+| [find](#double_hash_tablefind) | 取得符合條件值的位置 |
 
-### dhash_table::dhash_table
+### double_hash_table::double_hash_table
 Hash Table 建構
 ```C++
-constexpr dhash_table(const dhash_table& x);
+constexpr double_hash_table(const double_hash_table& x);
 
-constexpr dhash_table(const value_type(&x)[N]);
+constexpr double_hash_table(const value_type(&x)[N]);
 
 template<class OldHash, class OldHash2, class OldPred, size_t OldSlots>
-constexpr dhash_table(const dhash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x);
+constexpr double_hash_table(const double_hash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x);
 ```
 - **Template Parameters**  
 `OldHash` - 來源陣列的 Hash  
@@ -347,17 +347,17 @@ constexpr dhash_table(const dhash_table<N, Key, Val, OldHash, OldHash2, OldPred,
 `OldPred` - 來源陣列的 Pred  
 `OldSlots` - 來源陣列的 Slots  
 - **Parameters**  
-`x` - 同 dhash_table 元素數的來源
+`x` - 同 double_hash_table 元素數的來源
 
-### dhash_table::operator=
+### double_hash_table::operator=
 重新設定 Hash Table
 ```C++
-constexpr dhash_table& operator =(const dhash_table&);
+constexpr double_hash_table& operator =(const double_hash_table&);
 
-constexpr dhash_table& operator =(const value_type(&x)[N]);
+constexpr double_hash_table& operator =(const value_type(&x)[N]);
 
 template<class OldHash, class OldHash2, class OldPred, size_t OldSlots>
-constexpr dhash_table& operator =(const dhash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x);
+constexpr double_hash_table& operator =(const double_hash_table<N, Key, Val, OldHash, OldHash2, OldPred, OldSlots>& x);
 ```
 - **Template Parameters**  
 `OldHash` - 來源陣列的 Hash  
@@ -365,9 +365,9 @@ constexpr dhash_table& operator =(const dhash_table<N, Key, Val, OldHash, OldHas
 `OldPred` - 來源陣列的 Pred  
 `OldSlots` - 來源陣列的 Slots  
 - **Parameters**  
-`x` - 同 dhash_table 元素數的來源
+`x` - 同 double_hash_table 元素數的來源
 
-### dhash_table::size
+### double_hash_table::size
 元素數量
 ```C++
 constexpr size_t size() const;
@@ -375,7 +375,7 @@ constexpr size_t size() const;
 - **Return Value**  
 template parameter N。
 
-### dhash_table::data
+### double_hash_table::data
 儲存的元素陣列指標
 ```C++
 constexpr pointer data() const;
@@ -383,7 +383,7 @@ constexpr pointer data() const;
 - **Return Value**  
 陣列起始位置。
 
-### dhash_table::begin
+### double_hash_table::begin
 起始位置
 ```C++
 constexpr pointer begin() const;
@@ -391,7 +391,7 @@ constexpr pointer begin() const;
 - **Return Value**  
 data()。
 
-### dhash_table::end
+### double_hash_table::end
 結束位置
 ```C++
 constexpr pointer end() const;
@@ -399,7 +399,7 @@ constexpr pointer end() const;
 - **Return Value**  
 data() + size()。
 
-### dhash_table::operator[]
+### double_hash_table::operator[]
 訪問元素
 ```C++
 constexpr const mapped_type& operator [](const key_type& k);
@@ -409,7 +409,7 @@ constexpr const mapped_type& operator [](const key_type& k);
 - **Return Value**  
 等於 k 鍵值元素的對應值引用，若無該元素將造成非預期錯誤。
 
-### dhash_table::at
+### double_hash_table::at
 訪問元素，無目標則回無效值
 ```C++
 constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_type{}) const;
@@ -420,7 +420,7 @@ constexpr mapped_type at(const key_type& k, const mapped_type& invalid = mapped_
 - **Return Value**  
 等於 k 鍵值元素的對應值，若無元素則回傳 invalid 引數。
 
-### dhash_table::find
+### double_hash_table::find
 取得符合條件值的開始位置
 ```C++
 constexpr pointer find(const key_type& k) const;
