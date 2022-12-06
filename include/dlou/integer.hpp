@@ -53,8 +53,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_integral<T>::value)
 constexpr T reverse(T v)
 {
-	DLOU_REQUIRES_IN(std::is_integral<T>::value);
-
 	T ret = 0;
 	for (uint8_t i = 0; i < 8 * sizeof(T); ++i) {
 		ret <<= 1;
@@ -73,7 +71,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_integral<T>::value)
 constexpr uint8_t bsf(T v)
 {
-	DLOU_REQUIRES_IN(std::is_integral<T>::value);
 	using uint = typename std::make_unsigned<T>::type;
 	if (!v)
 		return invalid_exp;
@@ -105,7 +102,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_integral<T>::value)
 constexpr uint8_t bsr(T v)
 {
-	DLOU_REQUIRES_IN(std::is_integral<T>::value);
 	using uint = typename std::make_unsigned<T>::type;
 #ifdef __cpp_lib_int_pow2
 	return (uint8_t)(std::bit_width(static_cast<uint>(v)) - 1);
@@ -145,7 +141,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_integral<T>::value)
 constexpr bool ispow(T v)
 {
-	DLOU_REQUIRES_IN(std::is_integral<T>::value);
 	if constexpr (std::is_signed<T>::value)
 		if (v < T(0))
 			return false;
@@ -160,7 +155,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_integral<T>::value)
 constexpr uint8_t log(T v)
 {
-	DLOU_REQUIRES_IN(std::is_integral<T>::value);
 	using uint = typename std::make_unsigned<T>::type;
 	if constexpr (std::is_signed<T>::value)
 		if (v < T(0))
@@ -179,7 +173,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_unsigned<T>::value)
 constexpr T ceil(T v)
 {
-	DLOU_REQUIRES_IN(std::is_unsigned<T>::value);
 	using uint = typename std::decay<T>::type;
 #ifdef __cpp_lib_int_pow2
 	return std::bit_ceil(static_cast<uint>(v));
@@ -204,7 +197,6 @@ template<typename T>
 DLOU_REQUIRES(std::is_unsigned<T>::value)
 constexpr T floor(T v)
 {
-	DLOU_REQUIRES_IN(std::is_unsigned<T>::value);
 	using uint = typename std::decay<T>::type;
 #ifdef __cpp_lib_int_pow2
 	return std::bit_floor(static_cast<uint>(v));
@@ -244,7 +236,6 @@ namespace zigzag {
 	DLOU_REQUIRES(std::is_signed<T>::value)
 	constexpr auto encode(T v)
 	{
-		DLOU_REQUIRES_IN(std::is_signed<T>::value);
 		return static_cast<typename std::make_unsigned<T>::type>(
 			(v >> (sizeof(T) * 8 - 1)) ^ (v << 1)
 			);
@@ -254,7 +245,6 @@ namespace zigzag {
 	DLOU_REQUIRES(std::is_unsigned<T>::value)
 	constexpr auto decode(T v)
 	{
-		DLOU_REQUIRES_IN(std::is_unsigned<T>::value);
 		return static_cast<typename std::make_signed<T>::type>(
 			(v >> 1) ^ -(v & T(1))
 			);

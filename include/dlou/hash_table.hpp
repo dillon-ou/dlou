@@ -14,8 +14,6 @@ template<size_t N, class Key, class Val = void, class Hash = std::hash<Key>, cla
 DLOU_REQUIRES(N > 0 && Bucket > 0)
 class chained_hash_table
 {
-	DLOU_REQUIRES_IN(N > 0 && Bucket > 0);
-
 	template<size_t N, class, class, class, class, size_t Bucket>
 	DLOU_REQUIRES(N > 0 && Bucket > 0)
 	friend class chained_hash_table;
@@ -141,8 +139,6 @@ template<size_t N, class Key, class Val = void, class Hash = std::hash<Key>, cla
 DLOU_REQUIRES(N > 0 && Slots >= N)
 class hash_table
 {
-	DLOU_REQUIRES_IN(N > 0 && Slots >= N);
-
 public:
 	static const size_t slot_count = base2::ceil(Slots);
 	using key_type = Key;
@@ -266,8 +262,6 @@ template<size_t N, class Key, class Val = void, class Hash = std::hash<Key>, cla
 DLOU_REQUIRES(N > 0 && Slots >= N)
 class dhash_table
 {
-	DLOU_REQUIRES_IN(N > 0 && Slots >= N);
-
 public:
 	static const size_t slot_count = base2::ceil(Slots);
 	using key_type = Key;

@@ -27,8 +27,6 @@ template<size_t N, class Key, class Val, class Compare>
 DLOU_REQUIRES(N > 0)
 class sorted_array
 {
-	DLOU_REQUIRES_IN(N > 0);
-	
 	template<class, class Key, class Val, size_t N1, class Compare1, size_t N2, class Compare2>
 	friend constexpr auto merge(const sorted_array<N1, Key, Val, Compare1>&, const sorted_array<N2, Key, Val, Compare2>&);
 
@@ -302,7 +300,6 @@ template<class Key, class Val, class Compare = std::less<Key>, size_t N>
 DLOU_REQUIRES(!std::is_same<void, Val>::value)
 constexpr auto make_sorted_map(const std::pair<Key, Val>(&arr)[N])
 {
-	DLOU_REQUIRES_IN(!std::is_same<void, Val>::value);
 	return sorted_array<N, typename std::remove_reference<Key>::type, typename std::remove_reference<Val>::type, Compare>{arr};
 }
 

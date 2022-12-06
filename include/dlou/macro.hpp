@@ -23,10 +23,8 @@
 
 #ifdef __cpp_concepts
 #define DLOU_REQUIRES(...) requires (##__VA_ARGS__)
-#define DLOU_REQUIRES_IN(...) static_assert(true, "requires")
 #else
 #define DLOU_REQUIRES(...)
-#define DLOU_REQUIRES_IN(...) static_assert((##__VA_ARGS__), "requires")
 #endif
 
 #ifdef DLOU_NO_ALIAS
