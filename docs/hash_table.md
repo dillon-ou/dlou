@@ -11,8 +11,12 @@
 ## Functions
 | Name | Description |
 | --- | --- |
-| [make_hash_set](#make_sorted_set) | 建構僅含鍵值的雜湊表 |
-| [make_hash_map](#make_sorted_map) | 建構具映射值的雜湊表 |
+| make_chash_set | 建構僅含鍵值的雜湊鏈表 |
+| make_chash_map | 建構具映射值的雜湊鏈表 |
+| [make_hash_set](#make_hash_set) | 建構僅含鍵值的雜湊表 |
+| [make_hash_map](#make_hash_set) | 建構具映射值的雜湊表 |
+| make_dhash_set | 建構僅含鍵值的雙雜湊雜湊表 |
+| make_dhash_map | 建構具映射值的雙雜湊雜湊表 |
 
 ___
 ## chained_hash_table
