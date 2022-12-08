@@ -25,6 +25,7 @@
 | functor_array.hpp | Function objects 索引查詢 |
 | functor_map.hpp | Function objects 鍵值查詢 |
 | sorted_functor.hpp | Function objects 依鍵值重排序，並提供鍵值查詢 |
+| skew_heap.hpp | 不含記憶體分配的斜堆積實現 |
 
 ## Index
 ### B
