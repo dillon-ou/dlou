@@ -26,6 +26,7 @@
 | functor_map.hpp | Function objects 鍵值查詢 |
 | sorted_functor.hpp | Function objects 依鍵值重排序，並提供鍵值查詢 |
 | skew_heap.hpp | 不含記憶體分配的斜堆積實現 |
+| leftist_heap.hpp | 不含記憶體分配的左偏樹實現 |
 
 ## Index
 ### B
