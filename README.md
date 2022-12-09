@@ -28,6 +28,7 @@
 | skew_heap.hpp | 不含記憶體分配的斜堆積實現 |
 | leftist_heap.hpp | 不含記憶體分配的左偏樹實現 |
 | singly_linked_list.hpp | 不含記憶體分配的單向鏈結串列實現 |
+| doubly_linked_list.hpp | 不含記憶體分配的雙向鏈結串列實現 |
 
 ## Index
 ### B
