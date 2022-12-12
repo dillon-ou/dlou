@@ -25,11 +25,13 @@
 | functor_array.hpp | Function objects 索引查詢 |
 | functor_map.hpp | Function objects 鍵值查詢 |
 | sorted_functor.hpp | Function objects 依鍵值重排序，並提供鍵值查詢 |
-| skew_heap.hpp | 不含記憶體分配的斜堆積實現 |
-| leftist_heap.hpp | 不含記憶體分配的左偏樹實現 |
-| singly_linked_list.hpp | 不含記憶體分配的單向鏈結串列實現 |
-| doubly_linked_list.hpp | 不含記憶體分配的雙向鏈結串列實現 |
-| xor_linked_list.hpp | 不含記憶體分配的 XOR 鏈結串列實現 |
+| skew_heap.hpp | 不分配節點的斜堆積實現 |
+| leftist_heap.hpp | 不分配節點的左偏樹實現 |
+| singly_linked_list.hpp | 不分配節點的單向鏈結串列實現 |
+| doubly_linked_list.hpp | 不分配節點的雙向鏈結串列實現 |
+| xor_linked_list.hpp | 不分配節點的 XOR 鏈結串列實現 |
+| circular/singly_linked_list.hpp | 不分配節點的環狀單向鏈結串列實現 |
+| circular/doubly_linked_list.hpp | 不分配節點的環狀雙向鏈結串列實現 |
 
 ## Index
 ### B
