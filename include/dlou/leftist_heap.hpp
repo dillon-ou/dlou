@@ -60,6 +60,10 @@ public:
 		root_ = root_ ? merge(root_, p) : p;
 	}
 
+	const node* peek() const {
+		return root_;
+	}
+
 	void push(node* p) {
 #ifdef DLOU_CHECK_ARGS
 		if (!p)
