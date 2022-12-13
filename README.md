@@ -27,12 +27,15 @@
 | sorted_functor.hpp | Function objects 依鍵值重排序，並提供鍵值查詢 |
 | skew_heap.hpp | 不分配節點的斜堆積實現 |
 | leftist_heap.hpp | 不分配節點的左偏樹實現 |
-| priority_queue.hpp | 以堆積為基礎的優先級駐列 |
+| priority_queue.hpp | 以堆積為基礎的優先級佇列 |
 | singly_linked_list.hpp | 不分配節點的單向鏈結串列實現 |
 | doubly_linked_list.hpp | 不分配節點的雙向鏈結串列實現 |
 | xor_linked_list.hpp | 不分配節點的 XOR 鏈結串列實現 |
 | circular/singly_linked_list.hpp | 不分配節點的環狀單向鏈結串列實現 |
 | circular/doubly_linked_list.hpp | 不分配節點的環狀雙向鏈結串列實現 |
+| stack.hpp | 以鏈結串列為基礎的堆疊 |
+| queue.hpp | 以鏈結串列為基礎的佇列 |
+| deque.hpp | 以鏈結串列為基礎的雙向佇列 |
 
 ## Index
 ### B
