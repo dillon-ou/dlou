@@ -6,22 +6,19 @@
 
 namespace dlou {
 
-template<class Key>
-using skew_heap_node = node<2, Key>;
-
-template<class Key, class Compare = std::less<Key>>
-class skew_heap
+template<class Compare, class Key = void>
+class basic_skew_heap
 {
 public:
+	using node_compare = Compare;
 	using key_type = Key;
-	using key_compare = Compare;
-	using node = skew_heap_node<key_type>;
+	using node = node<2, key_type>;
 
 protected:
-	skew_heap(const skew_heap&) = default;
-	skew_heap& operator =(const skew_heap&) = default;
+	basic_skew_heap(const basic_skew_heap&) = default;
+	basic_skew_heap& operator =(const basic_skew_heap&) = default;
 
-	skew_heap& operator =(skew_heap && x) {
+	basic_skew_heap& operator =(basic_skew_heap && x) {
 		root_ = x.root_;
 		x.root_ = nullptr;
 		return *this;
@@ -32,16 +29,16 @@ protected:
 	}
 
 public:
-	skew_heap()
+	basic_skew_heap()
 		: root_(nullptr) {
 	}
 
-	skew_heap(skew_heap&& x)
+	basic_skew_heap(basic_skew_heap&& x)
 		: root_(x.root_) {
 		x.root_ = nullptr;
 	}
 
-	void swap(skew_heap& x) {
+	void swap(basic_skew_heap& x) {
 		auto tmp = root_;
 		root_ = x.root_;
 		x.root_ = tmp;
@@ -51,7 +48,7 @@ public:
 		return !root_;
 	}
 
-	void merge(skew_heap& x) {
+	void merge(basic_skew_heap& x) {
 		node* p = x.root_;
 		if (!p)
 			return;
@@ -94,9 +91,9 @@ public:
 
 protected:
 	static node* merge(node* p1, node* p2) {
-		key_compare cmp;
+		node_compare cmp;
 		node* ret;
-		if (cmp(p1->k, p2->k)) {
+		if (cmp(p1, p2)) {
 			ret = p1;
 			p1 = p2;
 		}
@@ -113,12 +110,12 @@ protected:
 	//	if (!pos)
 	//		return nullptr;
 	//
-	//	key_compare cmp;
+	//	node_compare cmp;
 	//	node* child = pos->n[0];
-	//	if (child && cmp(child->k, pos->k))
+	//	if (child && cmp(child, pos))
 	//		return pos;
 	//	child = pos->n[1];
-	//	if (child && cmp(child->k, pos->k))
+	//	if (child && cmp(child, pos))
 	//		return pos;
 	//
 	//	child = fault(pos->n[0]);
@@ -128,5 +125,11 @@ protected:
 protected:
 	node* root_;
 };
+
+template<class Key>
+using skew_heap_node = node<2, Key>;
+
+template<class Key, class Compare = std::less<Key>>
+using skew_heap = basic_skew_heap<node_compare<skew_heap_node<Key>, Compare>, Key>;
 
 } // namespace dlou

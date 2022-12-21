@@ -17,6 +17,12 @@ struct node<Way, Key, void> {
 	Key k;
 };
 
+template<size_t Way, class Balance>
+struct node<Way, void, Balance> {
+	struct node* n[Way];
+	Balance b;
+};
+
 template<size_t Way>
 struct node<Way, void, void> {
 	struct node* n[Way];
@@ -47,5 +53,12 @@ struct node_balance<node<Way, Key, Balance>> {
 
 template<class Node>
 using node_balance_t = typename node_balance<Node>::type;
+
+template<class Node, class Compare>
+struct node_compare : private Compare {
+	bool operator ()(const Node* a, const Node* b) const {
+		return Compare::operator ()(a->k, b->k);
+	}
+};
 
 } // namespace dlou

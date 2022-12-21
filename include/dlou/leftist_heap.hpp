@@ -6,23 +6,20 @@
 
 namespace dlou {
 
-template<class Key>
-using leftist_heap_node = node<2, Key, unsigned char>;
-
-template<class Key, class Compare = std::less<Key>>
-class leftist_heap
+template<class Compare, class Key = void>
+class basic_leftist_heap
 {
 public:
+	using node_compare = Compare;
 	using key_type = Key;
-	using key_compare = Compare;
-	using node = leftist_heap_node<key_type>;
+	using node = node<2, key_type, unsigned char>;
 	using s_type = node_balance_t<node>;
 
 protected:
-	leftist_heap(const leftist_heap&) = default;
-	leftist_heap& operator =(const leftist_heap&) = default;
+	basic_leftist_heap(const basic_leftist_heap&) = default;
+	basic_leftist_heap& operator =(const basic_leftist_heap&) = default;
 
-	leftist_heap& operator =(leftist_heap && x) {
+	basic_leftist_heap& operator =(basic_leftist_heap && x) {
 		root_ = x.root_;
 		x.root_ = nullptr;
 		return *this;
@@ -33,16 +30,16 @@ protected:
 	}
 
 public:
-	leftist_heap()
+	basic_leftist_heap()
 		: root_(nullptr) {
 	}
 
-	leftist_heap(leftist_heap&& x)
+	basic_leftist_heap(basic_leftist_heap&& x)
 		: root_(x.root_) {
 		x.root_ = nullptr;
 	}
 
-	void swap(leftist_heap& x) {
+	void swap(basic_leftist_heap& x) {
 		auto tmp = root_;
 		root_ = x.root_;
 		x.root_ = tmp;
@@ -52,7 +49,7 @@ public:
 		return !root_;
 	}
 
-	void merge(leftist_heap& x) {
+	void merge(basic_leftist_heap& x) {
 		node* p = x.root_;
 		if (!p)
 			return;
@@ -100,9 +97,9 @@ protected:
 	}
 
 	static node* merge(node* p1, node* p2) {
-		key_compare cmp;
+		node_compare cmp;
 		node* ret;
-		if (cmp(p1->k, p2->k)) {
+		if (cmp(p1, p2)) {
 			ret = p1;
 			p1 = p2;
 		}
@@ -130,7 +127,7 @@ protected:
 	//	if (!pos)
 	//		return nullptr;
 	//
-	//	key_compare cmp;
+	//	node_compare cmp;
 	//	node* left = pos->n[0];
 	//	node* right = pos->n[1];
 	//	if (left) {
@@ -139,10 +136,10 @@ protected:
 	//				return pos;
 	//			if (pos->b != right->b + 1)
 	//				return pos;
-	//			if (cmp(right->k, pos->k))
+	//			if (cmp(right, pos))
 	//				return pos;
 	//		}
-	//		if (cmp(left->k, pos->k))
+	//		if (cmp(left, pos))
 	//			return pos;
 	//
 	//		left = fault(left);
@@ -155,5 +152,11 @@ protected:
 protected:
 	node* root_;
 };
+
+template<class Key>
+using leftist_heap_node = node<2, Key, unsigned char>;
+
+template<class Key, class Compare = std::less<Key>>
+using leftist_heap = basic_leftist_heap<node_compare<leftist_heap_node<Key>, Compare>, Key>;
 
 } // namespace dlou
