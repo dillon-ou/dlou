@@ -123,7 +123,7 @@ public:
 		return !head_;
 	}
 
-	node* front() const {
+	const node* front() const {
 		return head_;
 	}
 
@@ -150,7 +150,7 @@ public:
 		return ret;
 	}
 
-	node* back() const {
+	const node* back() const {
 #ifdef DLOU_CHECK_ARGS
 		if (empty())
 			return nullptr;

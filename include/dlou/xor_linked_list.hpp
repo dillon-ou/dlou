@@ -123,13 +123,21 @@ protected:
 	}
 
 	void attach(xor_linked_list& x) {
-		node* f = x.front();
-		node* b = x.back();
+		node* f = x._front();
+		node* b = x._back();
 		_xor_to(f->n[0], &x.head_, &head_);
 		_xor_to(b->n[0], &x.tail_, &tail_);
 		head_.n[0] = _xor(&tail_, f);
 		tail_.n[0] = _xor(&head_, b);
 		x.clear();
+	}
+
+	node* _front() const {
+		return _next(&tail_, &head_);
+	}
+
+	node* _back() const {
+		return _next(&head_, &tail_);
 	}
 
 public:
@@ -155,12 +163,12 @@ public:
 		return nullptr == head_.n[0];
 	}
 
-	node* front() const {
-		return _next(&tail_, &head_);
+	const node* front() const {
+		return _front();
 	}
 
 	void push_front(node* p) {
-		node* f = front();
+		node* f = _front();
 		p->n[0] = _xor(&head_, f);
 		_xor_to(f->n[0], p, &head_);
 		_xor_to(head_.n[0], f, p);
@@ -171,19 +179,19 @@ public:
 		if (empty())
 			return nullptr;
 #endif
-		node* f = front();
+		node* f = _front();
 		node* n = _next(&head_, f);
 		_xor_to(n->n[0], f, &head_);
 		_xor_to(head_.n[0], f, n);
 		return f;
 	}
 
-	node* back() const {
-		return _next(&head_, &tail_);
+	const node* back() const {
+		return _back();
 	}
 
 	void push_back(node* p) {
-		node* b = back();
+		node* b = _back();
 		p->n[0] = _xor(&tail_, b);
 		_xor_to(b->n[0], p, &tail_);
 		_xor_to(tail_.n[0], b, p);
@@ -194,17 +202,17 @@ public:
 		if (empty())
 			return nullptr;
 #endif
-		node* b = back();
+		node* b = _back();
 		node* n = _next(&tail_, b);
 		_xor_to(n->n[0], b, &tail_);
 		_xor_to(tail_.n[0], b, n);
 		return b;
 	}
 
-	iterator begin() { return{ &head_, front() }; }
-	iterator end() { return{ back(), &tail_ }; }
-	reverse_iterator rbegin() { return{ &tail_, back() }; }
-	reverse_iterator rend() { return{ front(), &head_ }; }
+	iterator begin() { return{ &head_, _front() }; }
+	iterator end() { return{ _back(), &tail_ }; }
+	reverse_iterator rbegin() { return{ &tail_, _back() }; }
+	reverse_iterator rend() { return{ _front(), &head_ }; }
 
 	const_iterator cbegin() const { return const_cast<xor_linked_list*>(this)->begin(); }
 	const_iterator cend() const { return const_cast<xor_linked_list*>(this)->end(); }

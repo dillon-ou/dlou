@@ -51,6 +51,14 @@ protected:
 		return p->n[1];
 	}
 
+	node* _front() const {
+		return _next(&end_);
+	}
+
+	node* _back() const {
+		return _prev(&end_);
+	}
+
 public:
 	static node* next(node* p) {
 #ifdef DLOU_CHECK_ARGS
@@ -111,11 +119,11 @@ public:
 	}
 
 	bool empty() const {
-		return &end_ == front();
+		return &end_ == _front();
 	}
 
-	node* front() const {
-		return _next(&end_);
+	const node* front() const {
+		return _front();
 	}
 
 	void push_front(node* p) {
@@ -123,7 +131,7 @@ public:
 		if (!p)
 			return;
 #endif
-		insert(front(), p);
+		insert(_front(), p);
 	}
 
 	node* pop_front() {
@@ -131,13 +139,13 @@ public:
 		if (empty())
 			return nullptr;
 #endif
-		auto ret = front();
+		auto ret = _front();
 		erase(ret);
 		return ret;
 	}
 
-	node* back() const {
-		return _prev(&end_);
+	const node* back() const {
+		return _back();
 	}
 
 	void push_back(node* p) {
@@ -153,7 +161,7 @@ public:
 		if (empty())
 			return nullptr;
 #endif
-		auto ret = back();
+		auto ret = _back();
 		erase(ret);
 		return ret;
 	}
@@ -208,8 +216,8 @@ public:
 		if (x.empty())
 			return;
 #endif
-		auto first = x.front();
-		auto last = x.back();
+		auto first = x._front();
+		auto last = x._back();
 		x.erase(first, last);
 		insert(pos, first, last);
 	}

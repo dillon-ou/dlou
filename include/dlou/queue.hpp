@@ -26,8 +26,8 @@ namespace _queue {
 		std::move_constructible<Container>;
 		{ list.swap(list) };
 		{ list.empty() } -> std::same_as<bool>;
-		{ const_cast<const Container&>(list).front() } -> std::same_as<typename Container::node*>;
-		{ const_cast<const Container&>(list).back() } -> std::same_as<typename Container::node*>;
+		{ const_cast<const Container&>(list).front() } -> std::same_as<const typename Container::node*>;
+		{ const_cast<const Container&>(list).back() } -> std::same_as<const typename Container::node*>;
 		{ list.push_back(node) };
 		{ list.pop_front() } -> std::same_as<typename Container::node*>;
 	};
@@ -72,8 +72,8 @@ public:
 
 	void swap(queue& x) { list_.swap(x.list_); }
 
-	pointer front() const { return to_object(list_.front()); }
-	pointer back() const { return to_object(list_.back()); }
+	const_pointer front() const { return to_object(list_.front()); }
+	const_pointer back() const { return to_object(list_.back()); }
 
 	// push_back
 	void push(pointer p) { list_.push_back(to_node(p)); }

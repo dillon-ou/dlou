@@ -65,7 +65,7 @@ public:
 		return !tail_;
 	}
 
-	node* front() const {
+	const node* front() const {
 #ifdef DLOU_CHECK_ARGS
 		if (empty())
 			return nullptr;
@@ -88,7 +88,7 @@ public:
 		return erase_after(tail_);
 	}
 
-	node* back() const {
+	const node* back() const {
 		return tail_;
 	}
 

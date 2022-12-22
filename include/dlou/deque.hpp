@@ -26,8 +26,8 @@ namespace _deque {
 		std::move_constructible<Container>;
 		{ list.swap(list) };
 		{ list.empty() } -> std::same_as<bool>;
-		{ const_cast<const Container&>(list).front() } -> std::same_as<typename Container::node*>;
-		{ const_cast<const Container&>(list).back() } -> std::same_as<typename Container::node*>;
+		{ const_cast<const Container&>(list).front() } -> std::same_as<const typename Container::node*>;
+		{ const_cast<const Container&>(list).back() } -> std::same_as<const typename Container::node*>;
 		{ list.push_front(node) };
 		{ list.pop_front() } -> std::same_as<typename Container::node*>;
 		{ list.push_back(node) };
@@ -74,13 +74,13 @@ public:
 
 	void swap(deque& x) { list_.swap(x.list_); }
 
-	pointer front() const { return to_object(list_.front()); }
+	const_pointer front() const { return to_object(list_.front()); }
 	// push
 	void push_front(pointer p) { list_.push_front(to_node(p)); }
 	// pop
 	pointer pop_front() { return to_object(list_.pop_front()); }
 
-	pointer back() const { return to_object(list_.back()); }
+	const_pointer back() const { return to_object(list_.back()); }
 	// inject
 	void push_back(pointer p) { list_.push_back(to_node(p)); }
 	// eject

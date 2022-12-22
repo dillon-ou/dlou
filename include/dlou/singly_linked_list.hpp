@@ -27,21 +27,25 @@ protected:
 		return p->n[0];
 	}
 
+	node* _front() const {
+		return _next(&head_);
+	}
+
 public:
 	static node* next(node* p) {
 #ifdef DLOU_CHECK_ARGS
-		if (!p)
-			return nullptr;
-#endif
+		return p ? _next(p) : p;
+#else
 		return _next(p);
+#endif
 	}
 
 	static const node* next(const node* p) {
 #ifdef DLOU_CHECK_ARGS
-		if (!p)
-			return nullptr;
-#endif
+		return p ? _next(p) : p;
+#else
 		return _next(p);
+#endif
 	}
 
 public:
@@ -61,15 +65,15 @@ public:
 	}
 	
 	bool empty() const {
-		return !front();
+		return !_front();
 	}
 
 	const node* before_front() const {
 		return &head_;
 	}
 
-	node* front() const {
-		return _next(&head_);
+	const node* front() const {
+		return _front();
 	}
 	
 	void push_front(node* p) {
@@ -119,14 +123,14 @@ public:
 		if (!pos || x.empty())
 			return;
 #endif
-		auto first = x.front();
+		auto first = x._front();
 		x.clear();
 		auto nxt = first;
 		decltype(nxt) last;
-		while (nxt) {
+		do {
 			last = nxt;
 			nxt = _next(last);
-		}
+		} while (nxt);
 		insert_after(pos, first, last);
 	}
 

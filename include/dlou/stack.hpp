@@ -26,7 +26,7 @@ namespace _stack {
 		std::move_constructible<Container>;
 		{ list.swap(list) };
 		{ list.empty() } -> std::same_as<bool>;
-		{ const_cast<const Container&>(list).front() } -> std::same_as<typename Container::node*>;
+		{ const_cast<const Container&>(list).front() } -> std::same_as<const typename Container::node*>;
 		{ list.push_front(node) };
 		{ list.pop_front() } -> std::same_as<typename Container::node*>;
 	};
@@ -71,7 +71,7 @@ public:
 
 	void swap(stack& x) { list_.swap(x.list_); }
 
-	pointer top() const { return to_object(list_.front()); }
+	const_pointer top() const { return to_object(list_.front()); }
 	void push(pointer p) { list_.push_front(to_node(p)); }
 	pointer pop() { return to_object(list_.pop_front()); }
 
