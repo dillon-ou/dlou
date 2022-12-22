@@ -157,9 +157,14 @@ public:
 		erase(ret);
 		return ret;
 	}
+	
+	const node* before_front() const {
+		return &end_;
+	}
 
-	// like end()
-	const node* anchor() const { return &end_; }
+	const node* after_back() const {
+		return &end_;
+	}
 
 	void insert(const node* pos, node* newnode) {
 		insert(pos, newnode, newnode);
