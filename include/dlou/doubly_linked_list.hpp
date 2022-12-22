@@ -13,7 +13,7 @@ protected:
 	doubly_linked_list(const doubly_linked_list&) = default;
 	doubly_linked_list& operator =(const doubly_linked_list& x) = default;
 
-	doubly_linked_list& operator =(doubly_linked_list&& x) {
+	doubly_linked_list& operator =(doubly_linked_list&& x) noexcept {
 		if (x.empty())
 			clear();
 		else
@@ -89,7 +89,7 @@ public:
 		: end_({ &end_, &end_ }) {
 	}
 
-	doubly_linked_list(doubly_linked_list&& x)
+	doubly_linked_list(doubly_linked_list&& x) noexcept
 		: end_({ &end_, &end_ }) {
 		if (!x.empty())
 			attach(x);

@@ -94,7 +94,7 @@ protected:
 	xor_linked_list(const xor_linked_list&) = default;
 	xor_linked_list& operator =(const xor_linked_list& x) = default;
 
-	xor_linked_list& operator =(xor_linked_list&& x) {
+	xor_linked_list& operator =(xor_linked_list&& x) noexcept {
 		if (x.empty())
 			clear();
 		else

@@ -13,7 +13,7 @@ protected:
 	doubly_linked_list(const doubly_linked_list&) = default;
 	doubly_linked_list& operator =(const doubly_linked_list&) = default;
 
-	doubly_linked_list& operator =(doubly_linked_list&& x) {
+	doubly_linked_list& operator =(doubly_linked_list && x) noexcept {
 		head_ = x.head_;
 		x.clear();
 		return *this;
@@ -108,7 +108,7 @@ public:
 		: head_(nullptr) {
 	}
 
-	doubly_linked_list(doubly_linked_list&& x)
+	doubly_linked_list(doubly_linked_list&& x) noexcept
 		: head_(x.head_) {
 		x.clear();
 	}

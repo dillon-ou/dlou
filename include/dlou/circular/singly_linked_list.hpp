@@ -13,7 +13,7 @@ protected:
 	singly_linked_list(const singly_linked_list&) = default;
 	singly_linked_list& operator =(const singly_linked_list&) = default;
 
-	singly_linked_list& operator =(singly_linked_list&& x) {
+	singly_linked_list& operator =(singly_linked_list && x) noexcept {
 		tail_ = x.tail_;
 		x.clear();
 		return *this;
@@ -50,7 +50,7 @@ public:
 		: tail_(nullptr) {
 	}
 
-	singly_linked_list(singly_linked_list&& x)
+	singly_linked_list(singly_linked_list&& x) noexcept
 		: tail_(x.tail_) {
 		x.clear();
 	}
