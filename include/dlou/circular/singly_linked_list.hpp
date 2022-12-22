@@ -5,6 +5,7 @@
 namespace dlou {
 namespace circular {
 
+// back(anchor) -> front -> ... -> back
 class singly_linked_list {
 public:
 	using node = node<1>;
@@ -63,6 +64,10 @@ public:
 
 	bool empty() const {
 		return !tail_;
+	}
+
+	const node* before_front() const {
+		return back();
 	}
 
 	const node* front() const {
