@@ -1,6 +1,7 @@
 #pragma once
 
 #include "node.hpp"
+#include "const_iterator.hpp"
 
 #include <cstddef>
 
@@ -12,38 +13,6 @@ namespace dlou {
 class xor_linked_list {
 public:
 	using node = node<1>;
-
-	template<class Iterator>
-	class basic_const_iterator : protected Iterator {
-		friend class xor_linked_list;
-	public:
-		using typename Iterator::iterator_category;
-		using typename Iterator::difference_type;
-		using value_type = const typename Iterator::value_type;
-		using pointer = value_type*;
-		using reference = value_type&;
-
-	public:
-		basic_const_iterator() = default;
-		basic_const_iterator(const basic_const_iterator&) = default;
-		basic_const_iterator& operator =(const basic_const_iterator&) = default;
-
-		basic_const_iterator(const Iterator& it) : Iterator(it) {}
-
-		bool operator ==(const Iterator& x) const { return this->curr_ == x.curr_; }
-		bool operator !=(const Iterator& x) const { return this->curr_ != x.curr_; }
-
-		bool operator ==(const basic_const_iterator& x) const { return this->curr_ == x.curr_; }
-		bool operator !=(const basic_const_iterator& x) const { return this->curr_ != x.curr_; }
-
-		reference operator *() const { return *this->curr_; }
-		pointer operator ->() const { return this->curr_; }
-
-		basic_const_iterator& operator ++() { this->next(); return *this; }
-		basic_const_iterator operator ++(int) { auto ret = *this; this->next(); return ret; }
-		basic_const_iterator& operator --() { this->prev(); return *this; }
-		basic_const_iterator operator --(int) { auto ret = *this; this->prev(); return ret; }
-	};
 
 	class iterator {
 		friend class xor_linked_list;
@@ -68,8 +37,6 @@ public:
 
 		bool operator ==(const iterator& x) const { return curr_ == x.curr_; }
 		bool operator !=(const iterator& x) const { return curr_ != x.curr_; }
-		bool operator ==(const basic_const_iterator<iterator>& x) const { return x == *this; }
-		bool operator !=(const basic_const_iterator<iterator>& x) const { return x != *this; }
 
 		reference operator *() const { return *curr_; }
 		pointer operator ->() const { return curr_; }
@@ -84,14 +51,20 @@ public:
 		void prev() { auto p = prev_; prev_ = _next(curr_, p); curr_ = p; }
 	};
 
-	class reverse_iterator : public iterator {
+	class reverse_iterator {
 		friend class xor_linked_list;
+		iterator iter_;
 	public:
 		using iterator_type = iterator;
+		using iterator_category = typename iterator_type::iterator_category;
+		using difference_type = typename iterator_type::difference_type;
+		using value_type = typename iterator_type::value_type;
+		using pointer = typename iterator_type::pointer;
+		using reference = typename iterator_type::reference;
 
 	protected:
 		reverse_iterator(pointer prev, pointer curr)
-			: iterator(prev, curr) {
+			: iter_(prev, curr) {
 		}
 
 	public:
@@ -99,25 +72,23 @@ public:
 		reverse_iterator(const reverse_iterator&) = default;
 		reverse_iterator& operator =(const reverse_iterator&) = default;
 
-		explicit reverse_iterator(iterator_type it) : iterator(it.curr_, it.prev_) {}
-		iterator_type base() const { return iterator(curr_, prev_); }
+		explicit reverse_iterator(iterator_type it) : iter_(it.curr_, it.prev_) {}
+		iterator_type base() const { return iter_; }
 
-		bool operator ==(const reverse_iterator& x) const { return curr_ == x.curr_; }
-		bool operator !=(const reverse_iterator& x) const { return curr_ != x.curr_; }
-		bool operator ==(const basic_const_iterator<reverse_iterator>& x) const { return x == *this; }
-		bool operator !=(const basic_const_iterator<reverse_iterator>& x) const { return x != *this; }
+		bool operator ==(const reverse_iterator& x) const { return iter_ == x.iter_; }
+		bool operator !=(const reverse_iterator& x) const { return iter_ != x.iter_; }
 
-		reference operator *() const { return *curr_; }
-		pointer operator ->() const { return curr_; }
+		reference operator *() const { return *iter_; }
+		pointer operator ->() const { return &*iter_; }
 
-		reverse_iterator& operator ++() { next(); return *this; }
-		reverse_iterator operator ++(int) { auto ret = *this; next(); return ret; }
-		reverse_iterator& operator --() { prev(); return *this; }
-		reverse_iterator operator --(int) { auto ret = *this; prev(); return ret; }
+		reverse_iterator& operator ++() { ++iter_; return *this; }
+		reverse_iterator operator ++(int) { auto ret = *this; ++iter_; return ret; }
+		reverse_iterator& operator --() { --iter_; return *this; }
+		reverse_iterator operator --(int) { auto ret = *this; --iter_; return ret; }
 	};
 
-	using const_iterator = basic_const_iterator<iterator>;
-	using const_reverse_iterator = basic_const_iterator<reverse_iterator>;
+	using const_reverse_iterator = const_iterator<reverse_iterator>;
+	using const_iterator = const_iterator<iterator>;
 
 protected:
 	xor_linked_list(const xor_linked_list&) = default;
@@ -167,7 +138,7 @@ public:
 		, tail_({ 0 }) {
 	}
 
-	xor_linked_list(xor_linked_list&& x)
+	xor_linked_list(xor_linked_list&& x) noexcept
 		: head_({ 0 })
 		, tail_({ 0 }) {
 		if (!x.empty())
