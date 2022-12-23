@@ -1,7 +1,7 @@
 #pragma once
 
 #include "node.hpp"
-#include "const_iterator.hpp"
+#include "singly_linked_list.hpp"
 
 #include <cstddef>
 
@@ -19,16 +19,16 @@ public:
 	public:
 		using iterator_category = std::bidirectional_iterator_tag;
 		using difference_type = std::ptrdiff_t;
-		using value_type = node;
-		using pointer = node*;
-		using reference = node&;
+		using value_type = const node;
+		using pointer = const node*;
+		using reference = const node&;
 
 	protected:
-		pointer prev_;
-		pointer curr_;
+		node* prev_;
+		node* curr_;
 
 		iterator(pointer prev, pointer curr)
-			: prev_(prev), curr_(curr) {
+			: prev_(const_cast<node*>(prev)), curr_(const_cast<node*>(curr)) {
 		}
 	public:
 		iterator() : prev_(nullptr), curr_(nullptr) {}
@@ -87,9 +87,6 @@ public:
 		reverse_iterator operator --(int) { auto ret = *this; --iter_; return ret; }
 	};
 
-	using const_reverse_iterator = const_iterator<reverse_iterator>;
-	using const_iterator = const_iterator<iterator>;
-
 protected:
 	xor_linked_list(const xor_linked_list&) = default;
 	xor_linked_list& operator =(const xor_linked_list& x) = default;
@@ -140,6 +137,25 @@ protected:
 		return _next(&head_, &tail_);
 	}
 
+	template<class InputIterator>
+	InputIterator link(InputIterator first, InputIterator last) {
+		auto iter = first;
+		decltype(iter) prv = iter++;
+		prv->n[0] = nullptr;
+		while (iter != last) {
+			iter->n[0] = &*prv;
+			prv = iter++;
+		}
+
+		auto nxt = first;
+		while (nxt != prv) {
+			iter = nxt++;
+			_xor_to(iter->n[0], &*nxt);
+		}
+
+		return prv;
+	}
+
 public:
 	xor_linked_list()
 		: head_({ 0 })
@@ -151,6 +167,17 @@ public:
 		, tail_({ 0 }) {
 		if (!x.empty())
 			attach(x);
+	}
+
+	template<class InputIterator>
+	xor_linked_list(InputIterator first, InputIterator last) {
+		last = link(first, last);
+
+		_xor_to(first->n[0], &head_);
+		head_.n[0] = _xor(&tail_, &*first);
+
+		_xor_to(last->n[0], &tail_);
+		tail_.n[0] = _xor(&head_, &*last);
 	}
 
 	void swap(xor_linked_list& x) {
@@ -172,6 +199,18 @@ public:
 		p->n[0] = _xor(&head_, f);
 		_xor_to(f->n[0], p, &head_);
 		_xor_to(head_.n[0], f, p);
+	}
+
+	template<class InputIterator>
+	void push_front(InputIterator first, InputIterator last) {
+		node* f = _front();
+
+		last = link(first, last);
+		_xor_to(last->n[0], &head_);
+		_xor_to(head_.n[0], f, &*last);
+
+		_xor_to(first->n[0], f);
+		_xor_to(f->n[0], &head_, &*first);
 	}
 
 	node* pop_front() {
@@ -197,6 +236,18 @@ public:
 		_xor_to(tail_.n[0], b, p);
 	}
 
+	template<class InputIterator>
+	void push_back(InputIterator first, InputIterator last) {
+		node* b = _back();
+
+		last = link(first, last);
+		_xor_to(first->n[0], b);
+		_xor_to(b->n[0], &tail_, &*first);
+
+		_xor_to(last->n[0], &tail_);
+		_xor_to(tail_.n[0], b, &*last);
+	}
+
 	node* pop_back() {
 #ifdef DLOU_CHECK_ARGS
 		if (empty())
@@ -209,34 +260,82 @@ public:
 		return b;
 	}
 
-	iterator begin() { return{ &head_, _front() }; }
-	iterator end() { return{ _back(), &tail_ }; }
-	reverse_iterator rbegin() { return{ &tail_, _back() }; }
-	reverse_iterator rend() { return{ _front(), &head_ }; }
+	iterator begin() const { return{ &head_, _front() }; }
+	iterator end() const { return{ _back(), &tail_ }; }
+	
+	reverse_iterator rbegin() const { return{ &tail_, _back() }; }
+	reverse_iterator rend() const { return{ _front(), &head_ }; }
 
-	const_iterator cbegin() const { return const_cast<xor_linked_list*>(this)->begin(); }
-	const_iterator cend() const { return const_cast<xor_linked_list*>(this)->end(); }
-	const_reverse_iterator crbegin() const { return const_cast<xor_linked_list*>(this)->rbegin(); }
-	const_reverse_iterator crend() const { return const_cast<xor_linked_list*>(this)->rend(); }
-
-	const_iterator begin() const { return cbegin(); }
-	const_iterator end() const { return cend(); }
-	const_reverse_iterator rbegin() const { return crbegin(); }
-	const_reverse_iterator rend() const { return crend(); }
-
-	void insert(iterator& pos, node* newnode) {
-		newnode->n[0] = _xor(pos.prev_, pos.curr_);
-		_xor_to(const_cast<node*>(pos.curr_)->n[0], newnode, pos.prev_);
-		_xor_to(const_cast<node*>(pos.prev_)->n[0], newnode, pos.curr_);
-		pos.curr_ = newnode;
+	// Return inserted iterator
+	// Update pos (after inserted)
+	iterator insert(iterator& pos, node* newnode) {
+		iterator ret = pos;
+		newnode->n[0] = _xor(ret.prev_, ret.curr_);
+		_xor_to(ret.curr_->n[0], ret.prev_, newnode);
+		_xor_to(ret.prev_->n[0], ret.curr_, newnode);
+		pos.prev_ = newnode;
+		ret.curr_ = newnode;
+		return ret;
 	}
 
+	template<class InputIterator>
+	iterator insert(iterator& pos, InputIterator first, InputIterator last) {
+#ifdef DLOU_CHECK_ARGS
+		if (first == last)
+			return pos;
+#endif
+		iterator ret = pos;
+
+		last = link(first, last);
+		_xor_to(last->n[0], ret.curr_);
+		_xor_to(first->n[0], ret.prev_);
+
+		ret.curr_ = &*first;
+		pos.prev_ = &*last;
+
+		_xor_to(ret.prev_->n[0], pos.curr_, ret.curr_);
+		_xor_to(pos.curr_->n[0], ret.prev_, pos.prev_);
+
+		return ret;
+	}
+
+	// Return pos node
+	// Set pos to next
 	node* erase(iterator& pos) {
-		auto p = const_cast<node*>(pos.curr_);
+		node* ret = pos.curr_;
 		pos.curr_ = _next(pos.prev_, pos.curr_);
-		_xor_to(const_cast<node*>(pos.curr_)->n[0], p, pos.prev_);
-		_xor_to(const_cast<node*>(pos.prev_)->n[0], p, pos.curr_);
-		return p;
+		_xor_to(const_cast<node*>(pos.curr_)->n[0], ret, pos.prev_);
+		_xor_to(const_cast<node*>(pos.prev_)->n[0], ret, pos.curr_);
+		return ret;
+	}
+
+	// Set first to last position.
+	singly_linked_list erase(iterator& first, iterator last) {
+#ifdef DLOU_CHECK_ARGS
+		if (first == last)
+			return {};
+#endif
+
+		iterator beg = first;
+		iterator end = last;
+
+		_xor_to(end.curr_->n[0], end.prev_, beg.prev_);
+		_xor_to(beg.prev_->n[0], beg.curr_, end.curr_);
+		first.curr_ = end.curr_;
+
+		auto prv = beg.prev_;
+		auto pos = beg.curr_;
+		while (pos != end.prev_) {
+			auto nxt = _next(prv, pos);
+			prv = pos;
+			pos = nxt;
+			prv->n[0] = pos;
+		}
+		end.prev_->n[0] = nullptr;
+
+		singly_linked_list ret;
+		ret.push_front(beg.curr_, end.prev_);
+		return (singly_linked_list&&)ret;
 	}
 
 protected:
