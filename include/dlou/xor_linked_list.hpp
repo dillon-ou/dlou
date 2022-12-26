@@ -1,7 +1,7 @@
 #pragma once
 
 #include "node.hpp"
-#include "singly_linked_list.hpp"
+#include "glvalue.hpp"
 
 #include <cstddef>
 
@@ -110,6 +110,11 @@ protected:
 		dst = (node*)(ptrdiff_t(dst) ^ ... ^ ptrdiff_t(args));
 	}
 
+
+	static void replace(node* cur, const node* a, const node* b) {
+		_xor_to(cur->n[0], a, b);
+	}
+
 	static node* _next(const node* prev, const node* curr) {
 		return _xor(curr->n[0], prev);
 	}
@@ -122,8 +127,8 @@ protected:
 	void attach(xor_linked_list& x) {
 		node* f = x._front();
 		node* b = x._back();
-		_xor_to(f->n[0], &x.head_, &head_);
-		_xor_to(b->n[0], &x.tail_, &tail_);
+		replace(f, &x.head_, &head_);
+		replace(b, &x.tail_, &tail_);
 		head_.n[0] = _xor(&tail_, f);
 		tail_.n[0] = _xor(&head_, b);
 		x.clear();
@@ -155,6 +160,8 @@ protected:
 
 		return prv;
 	}
+
+	using gliterator = const glvalue<iterator>&;
 
 public:
 	xor_linked_list()
@@ -197,8 +204,8 @@ public:
 	void push_front(node* p) {
 		node* f = _front();
 		p->n[0] = _xor(&head_, f);
-		_xor_to(f->n[0], p, &head_);
-		_xor_to(head_.n[0], f, p);
+		replace(f, p, &head_);
+		replace(&head_, f, p);
 	}
 
 	template<class InputIterator>
@@ -206,11 +213,11 @@ public:
 		node* f = _front();
 
 		last = link(first, last);
-		_xor_to(last->n[0], &head_);
-		_xor_to(head_.n[0], f, &*last);
+		replace(last, &head_);
+		replace(&head_, f, &*last);
 
-		_xor_to(first->n[0], f);
-		_xor_to(f->n[0], &head_, &*first);
+		replace(first, f);
+		replace(f, &head_, &*first);
 	}
 
 	node* pop_front() {
@@ -220,8 +227,8 @@ public:
 #endif
 		node* f = _front();
 		node* n = _next(&head_, f);
-		_xor_to(n->n[0], f, &head_);
-		_xor_to(head_.n[0], f, n);
+		replace(n, f, &head_);
+		replace(&head_, f, n);
 		return f;
 	}
 
@@ -232,8 +239,8 @@ public:
 	void push_back(node* p) {
 		node* b = _back();
 		p->n[0] = _xor(&tail_, b);
-		_xor_to(b->n[0], p, &tail_);
-		_xor_to(tail_.n[0], b, p);
+		replace(b, p, &tail_);
+		replace(&tail_, b, p);
 	}
 
 	template<class InputIterator>
@@ -241,11 +248,11 @@ public:
 		node* b = _back();
 
 		last = link(first, last);
-		_xor_to(first->n[0], b);
-		_xor_to(b->n[0], &tail_, &*first);
+		replace(first, b);
+		replace(b, &tail_, &*first);
 
-		_xor_to(last->n[0], &tail_);
-		_xor_to(tail_.n[0], b, &*last);
+		replace(last, &tail_);
+		replace(&tail_, b, &*last);
 	}
 
 	node* pop_back() {
@@ -255,8 +262,8 @@ public:
 #endif
 		node* b = _back();
 		node* n = _next(&tail_, b);
-		_xor_to(n->n[0], b, &tail_);
-		_xor_to(tail_.n[0], b, n);
+		replace(n, b, &tail_);
+		replace(&tail_, b, n);
 		return b;
 	}
 
@@ -268,74 +275,99 @@ public:
 
 	// Return inserted iterator
 	// Update pos (after inserted)
-	iterator insert(iterator& pos, node* newnode) {
-		iterator ret = pos;
+	iterator insert(gliterator pos, node* newnode) {
+		iterator ret = *pos;
 		newnode->n[0] = _xor(ret.prev_, ret.curr_);
-		_xor_to(ret.curr_->n[0], ret.prev_, newnode);
-		_xor_to(ret.prev_->n[0], ret.curr_, newnode);
-		pos.prev_ = newnode;
+		replace(ret.curr_, ret.prev_, newnode);
+		replace(ret.prev_, ret.curr_, newnode);
+		pos->prev_ = newnode;
 		ret.curr_ = newnode;
 		return ret;
 	}
 
 	template<class InputIterator>
-	iterator insert(iterator& pos, InputIterator first, InputIterator last) {
+	iterator insert(gliterator pos, InputIterator first, InputIterator last) {
 #ifdef DLOU_CHECK_ARGS
 		if (first == last)
-			return pos;
+			return *pos;
 #endif
-		iterator ret = pos;
+		iterator ret = *pos;
 
 		last = link(first, last);
-		_xor_to(last->n[0], ret.curr_);
-		_xor_to(first->n[0], ret.prev_);
+		replace(last, ret.curr_);
+		replace(first, ret.prev_);
 
 		ret.curr_ = &*first;
-		pos.prev_ = &*last;
+		pos->prev_ = &*last;
 
-		_xor_to(ret.prev_->n[0], pos.curr_, ret.curr_);
-		_xor_to(pos.curr_->n[0], ret.prev_, pos.prev_);
+		replace(ret.prev_, pos->curr_, ret.curr_);
+		replace(pos->curr_, ret.prev_, pos->prev_);
 
 		return ret;
 	}
 
-	// Return pos node
-	// Set pos to next
-	node* erase(iterator& pos) {
-		node* ret = pos.curr_;
-		pos.curr_ = _next(pos.prev_, pos.curr_);
-		_xor_to(const_cast<node*>(pos.curr_)->n[0], ret, pos.prev_);
-		_xor_to(const_cast<node*>(pos.prev_)->n[0], ret, pos.curr_);
+	// Return removed node
+	// Set pos to iterator following the last removed element
+	node* erase(gliterator pos) {
+		node* ret = pos->curr_;
+		pos->curr_ = _next(pos->prev_, pos->curr_);
+		replace(pos->curr_, ret, pos->prev_);
+		replace(pos->prev_, ret, pos->curr_);
 		return ret;
 	}
 
-	// Set first to last position.
-	singly_linked_list erase(iterator& first, iterator last) {
+	// Return singly linked list from head to nullptr.
+	//   ex: for (auto pos = ret; pos; pos = pos->n[0])
+	// Set first to iterator following the last removed element
+	node* erase(gliterator first, iterator last) {
 #ifdef DLOU_CHECK_ARGS
-		if (first == last)
+		if (*first == last)
 			return {};
 #endif
+		auto head = first->curr_;
 
-		iterator beg = first;
-		iterator end = last;
+		replace(last.curr_, last.prev_, first->prev_);
+		replace(first->prev_, head, last.curr_);
+		first->curr_ = last.curr_;
 
-		_xor_to(end.curr_->n[0], end.prev_, beg.prev_);
-		_xor_to(beg.prev_->n[0], beg.curr_, end.curr_);
-		first.curr_ = end.curr_;
-
-		auto prv = beg.prev_;
-		auto pos = beg.curr_;
-		while (pos != end.prev_) {
+		auto prv = first->prev_;
+		auto pos = head;
+		while (pos != last.prev_) {
 			auto nxt = _next(prv, pos);
 			prv = pos;
 			pos = nxt;
 			prv->n[0] = pos;
 		}
-		end.prev_->n[0] = nullptr;
+		last.prev_->n[0] = nullptr;
 
-		singly_linked_list ret;
-		ret.push_front(beg.curr_, end.prev_);
-		return (singly_linked_list&&)ret;
+		return head;
+	}
+
+	void splice(gliterator pos, xor_linked_list&& other) {
+		return splice(pos, (xor_linked_list&&)other, other.begin(), other.end());
+	}
+
+	void splice(gliterator pos, xor_linked_list&& other, iterator it) {
+		return splice(pos, (xor_linked_list&&)other, it, it);
+	}
+
+	void splice(gliterator pos, xor_linked_list&& other, iterator first, iterator last) {
+		if (first == last)
+			return;
+
+		// sub
+		replace(first.curr_, first.prev_, pos->prev_);
+		replace(last.prev_, last.curr_, pos->curr_);
+
+		// other
+		replace(first.prev_, first.curr_, last.curr_);
+		replace(last.curr_, last.prev_, first.prev_);
+
+		// this
+		replace(pos->prev_, pos->curr_, first.curr_);
+		replace(pos->curr_, pos->prev_, last.prev_);
+
+		pos->prev_ = last.prev_;
 	}
 
 protected:
