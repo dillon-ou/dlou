@@ -3,6 +3,8 @@
 #include "macro.hpp"
 #include "integer.hpp"
 
+#include <type_traits>
+
 
 namespace dlou {
 
@@ -32,8 +34,8 @@ struct remove_member<M T::*> {
 template<class T>
 using remove_member_t = typename remove_member<T>::type;
 
+namespace _ {
 
-namespace _internal {
 	template<size_t Bytes>
 	struct integer {
 		using type = void;
@@ -62,12 +64,24 @@ namespace _internal {
 		using type = long long;
 		static_assert(8 == sizeof(type), "Check sizeof(integer)");
 	};
-}
+
+	template<size_t Bytes>
+	struct uinteger {
+		using type = std::make_unsigned_t<typename integer<Bytes>::type>;
+	};
+
+} // namespace _
 
 template<size_t Bytes>
-using integer_type = typename _internal::integer<base2::ceil(Bytes)>::type;
+using integer = _::integer<base2::ceil(Bytes)>;
 
 template<size_t Bytes>
-using uinteger_type = typename std::make_unsigned<integer_type<Bytes>>::type;
+using uinteger = _::uinteger<base2::ceil(Bytes)>;
+
+template<size_t Bytes>
+using integer_t = typename integer<Bytes>::type;
+
+template<size_t Bytes>
+using uinteger_t = typename uinteger<Bytes>::type;
 
 } // namespace dlou
