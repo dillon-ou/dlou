@@ -291,7 +291,7 @@ public:
 
 protected:
 	static constexpr size_t _bit_width(uint v) noexcept {
-		static constexpr uint one = uint(1);
+		constexpr uint one = uint(1);
 		size_t pos = half;
 		size_t ret = 1;
 

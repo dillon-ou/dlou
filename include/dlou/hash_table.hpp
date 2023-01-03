@@ -1,7 +1,6 @@
 #pragma once
 
 #include "integer.hpp"
-#include "static.hpp"
 
 #include <cstddef>
 
@@ -35,7 +34,7 @@ public:
 	using pointer = const value_type*;
 
 private:
-	using nodepos = uinteger_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
+	using nodepos = uint_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
 	static constexpr nodepos invalid_pos = ~nodepos(0);
 
 	struct node {
@@ -214,7 +213,7 @@ public:
 	using pointer = const value_type*;
 
 private:
-	using nodepos = uinteger_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
+	using nodepos = uint_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
 	static constexpr nodepos invalid_pos = ~nodepos(0);
 
 public:
@@ -402,7 +401,7 @@ public:
 	using pointer = const value_type*;
 
 private:
-	using nodepos = uinteger_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
+	using nodepos = uint_t<(base2::log_ceil(N + 1 /* invalid_pos */) + 7U) / 8U>;
 	static constexpr nodepos invalid_pos = ~nodepos(0);
 
 public:

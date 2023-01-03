@@ -1,10 +1,12 @@
 #pragma once
 
 #include "macro.hpp"
+#include "pair_int.hpp"
 
 #include <cstdint>
 #include <type_traits>
 #include <limits>
+#include <utility>
 #include <array>
 
 #ifdef __cpp_lib_int_pow2
@@ -214,5 +216,115 @@ namespace zigzag {
 
 DLOU_DEFINED_ALIAS_FUNCTION(zigzag_encode, zigzag::encode)
 DLOU_DEFINED_ALIAS_FUNCTION(zigzag_decode, zigzag::decode)
+
+namespace _ {
+	template<size_t Bytes>
+	struct integer {};
+
+	template<>
+	struct integer<1> {
+		using type = signed char;
+		static_assert(1 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<2> {
+		using type = short;
+		static_assert(2 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<4> {
+		using type = long;
+		static_assert(4 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<>
+	struct integer<8> {
+		using type = long long;
+		static_assert(8 == sizeof(type), "Check sizeof(integer)");
+	};
+
+	template<size_t Bytes, class = void>
+	struct uinteger {};
+
+	template<size_t Bytes>
+	struct uinteger<Bytes, std::void_t<typename integer<Bytes>::type>> {
+		using type = std::make_unsigned_t<typename integer<Bytes>::type>;
+	};
+
+} // namespace _
+
+template<size_t Bytes, bool Signed = true>
+using integer = std::conditional_t<Signed, _::integer<base2::ceil(Bytes)>, _::uinteger<base2::ceil(Bytes)>>;
+
+template<size_t Bytes>
+using sint = integer<base2::ceil(Bytes), true>;
+
+template<size_t Bytes>
+using uint = integer<base2::ceil(Bytes), false>;
+
+template<size_t Bytes, bool Signed = true>
+using integer_t = typename integer<Bytes, Signed>::type;
+
+template<size_t Bytes>
+using sint_t = typename sint<Bytes>::type;
+
+template<size_t Bytes>
+using uint_t = typename uint<Bytes>::type;
+
+namespace math {
+
+namespace _ {
+	template<class T, class = void>
+	struct add {
+		using result_type = pair_int<T>;
+
+		result_type operator ()(const T& a, const T& b) const {
+			return pair_int<T>::add(a, b);
+		}
+	};
+
+	template<class T>
+	struct add<T, std::void_t<typename integer<sizeof(T) * 2, std::is_signed_v<T>>::type>> {
+		using result_type = integer_t<sizeof(T) * 2, std::is_signed_v<T>>;
+
+		result_type operator ()(const T& a, const T& b) const {
+			return result_type(a) + result_type(b);
+		}
+	};
+
+	template<class T, class = void>
+	struct mul {
+		using result_type = pair_int<T>;
+
+		result_type operator ()(const T& a, const T& b) const {
+			return pair_int<T>::mul(a, b);
+		}
+	};
+
+	template<class T>
+	struct mul<T, std::void_t<typename integer<sizeof(T) * 2, std::is_signed_v<T>>::type>> {
+		using result_type = integer_t<sizeof(T) * 2, std::is_signed_v<T>>;
+
+		result_type operator ()(const T& a, const T& b) const {
+			return result_type(a) * result_type(b);
+		}
+	};
+} // namespace _
+
+template<class T, class U>
+DLOU_REQUIRES(std::is_integral<T>::value && std::is_integral<U>::value)
+inline constexpr auto add(const T& a, const U& b) {
+	return _::add<std::common_type_t<T, U>>{}(a, b);
+}
+
+template<class T, class U>
+DLOU_REQUIRES(std::is_integral<T>::value)
+inline constexpr auto mul(const T& a, const U& b) {
+	return _::mul<std::common_type_t<T, U>>{}(a, b);
+}
+
+} // namespace math
 
 } // namespace dlou
