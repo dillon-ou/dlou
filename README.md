@@ -25,6 +25,7 @@ Header 描述
 | integer.hpp | 整數算法 |
 | glvalue.hpp | Generalized lvalue |
 | pair_int.hpp | 分為高低位儲存的整數計算 |
+| decimal.hpp | 固定小數位的十進制數字計算 |
 
 ### Dynamic memory management
 | Include | Description |
