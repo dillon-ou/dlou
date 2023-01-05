@@ -33,9 +33,22 @@ struct node_key {
 	using type = void;
 };
 
+template<size_t Way, class Balance>
+struct node_key<node<Way, void, Balance>> {
+	using type = void;
+};
+
 template<size_t Way, class Key, class Balance>
 struct node_key<node<Way, Key, Balance>> {
 	using type = Key;
+
+	Key& operator ()(node<Way, Key, Balance>& x) const {
+		return x.k;
+	}
+
+	const Key& operator ()(const node<Way, Key, Balance>& x) const {
+		return x.k;
+	}
 };
 
 template<class Node>
@@ -46,9 +59,22 @@ struct node_balance {
 	using type = void;
 };
 
+template<size_t Way, class Key>
+struct node_balance<node<Way, Key, void>> {
+	using type = void;
+};
+
 template<size_t Way, class Key, class Balance>
 struct node_balance<node<Way, Key, Balance>> {
 	using type = Balance;
+
+	Balance& operator ()(node<Way, Key, Balance>& x) const {
+		return x.b;
+	}
+
+	const Balance& operator ()(const node<Way, Key, Balance>& x) const {
+		return x.b;
+	}
 };
 
 template<class Node>

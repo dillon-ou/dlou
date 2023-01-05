@@ -2,24 +2,32 @@
 
 #include "node.hpp"
 
+#include <type_traits>
 #include <functional>
 
 namespace dlou {
 
-template<class Compare, class Key = void>
+template<class Key>
+using leftist_heap_node = node<2, Key, unsigned char>;
+
+template<class NodeKey
+	, class GetKey = node_key<leftist_heap_node<NodeKey>>
+	, class Compare = std::less<std::remove_cvref_t<std::invoke_result_t<GetKey, const leftist_heap_node<NodeKey>&>>>>
 class basic_leftist_heap
+	: private GetKey
+	, private Compare
 {
 public:
-	using node_compare = Compare;
-	using key_type = Key;
-	using node = node<2, key_type, unsigned char>;
+	using node = leftist_heap_node<NodeKey>;
+	using key_type = std::remove_cvref_t<std::invoke_result_t<GetKey, const node&>>;
+	using key_compare = Compare;
 	using s_type = node_balance_t<node>;
 
 protected:
 	basic_leftist_heap(const basic_leftist_heap&) = default;
 	basic_leftist_heap& operator =(const basic_leftist_heap&) = default;
 
-	basic_leftist_heap& operator =(basic_leftist_heap && x) {
+	basic_leftist_heap& operator =(basic_leftist_heap&& x) {
 		root_ = x.root_;
 		x.root_ = nullptr;
 		return *this;
@@ -27,6 +35,14 @@ protected:
 
 	void clear() {
 		root_ = nullptr;
+	}
+
+	const key_type& key(const node& n) const {
+		return GetKey::operator ()(n);
+	}
+
+	bool compare(const node& a, const node& b) const {
+		return Compare::operator ()(key(a), key(b));
 	}
 
 public:
@@ -88,7 +104,7 @@ public:
 	//node* fault() const {
 	//	if (!root_)
 	//		return nullptr;
-	//	return fault(root_);
+	//	return _fault(root_);
 	//}
 
 protected:
@@ -96,10 +112,9 @@ protected:
 		return pos ? pos->b : 0;
 	}
 
-	static node* merge(node* p1, node* p2) {
-		node_compare cmp;
+	node* merge(node* p1, node* p2) {
 		node* ret;
-		if (cmp(p1, p2)) {
+		if (compare(*p1, *p2)) {
 			ret = p1;
 			p1 = p2;
 		}
@@ -123,11 +138,10 @@ protected:
 		return ret;
 	}
 
-	//static node* fault(node* pos) {
+	//node* _fault(node* pos) {
 	//	if (!pos)
 	//		return nullptr;
 	//
-	//	node_compare cmp;
 	//	node* left = pos->n[0];
 	//	node* right = pos->n[1];
 	//	if (left) {
@@ -136,14 +150,14 @@ protected:
 	//				return pos;
 	//			if (pos->b != right->b + 1)
 	//				return pos;
-	//			if (cmp(right, pos))
+	//			if (compare(*right, *pos))
 	//				return pos;
 	//		}
-	//		if (cmp(left, pos))
+	//		if (compare(*left, *pos))
 	//			return pos;
 	//
-	//		left = fault(left);
-	//		return left ? left : fault(right);
+	//		left = _fault(left);
+	//		return left ? left : _fault(right);
 	//	}
 	//
 	//	return right ? pos : nullptr;
@@ -153,10 +167,7 @@ protected:
 	node* root_;
 };
 
-template<class Key>
-using leftist_heap_node = node<2, Key, unsigned char>;
-
 template<class Key, class Compare = std::less<Key>>
-using leftist_heap = basic_leftist_heap<node_compare<leftist_heap_node<Key>, Compare>, Key>;
+using leftist_heap = basic_leftist_heap<Key, node_key<leftist_heap_node<Key>>, Compare>;
 
 } // namespace dlou
