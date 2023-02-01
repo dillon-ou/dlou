@@ -117,7 +117,7 @@ public:
 		}
 	}
 
-	void erase(const node* pos) {
+	node* erase(const node* pos) {
 		node* parent = basic_type::_erase(const_cast<node*>(pos));
 
 		while (parent) {
@@ -137,6 +137,8 @@ public:
 
 			parent = _parent(parent);
 		}
+
+		return const_cast<node*>(pos);
 	}
 	
 	node* erase(const key_type& key) {

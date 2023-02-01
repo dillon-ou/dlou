@@ -82,7 +82,7 @@ public:
 		splay(p);
 	}
 	
-	void erase(const node* pos) {
+	node* erase(const node* pos) {
 		auto curr = const_cast<node*>(pos);
 		_splay(curr);
 
@@ -104,6 +104,8 @@ public:
 			_parent(root_) = nullptr;
 		else
 			root_ = nullptr;
+
+		return curr;
 	}
 	
 	node* erase(const key_type& key) {

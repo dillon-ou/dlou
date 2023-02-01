@@ -303,8 +303,9 @@ protected:
 		*branch = p;
 	}
 
-	void erase(const node* pos) {
+	node* erase(const node* pos) {
 		_erase(const_cast<node*>(pos));
+		return const_cast<node*>(pos);
 	}
 
 	node* erase(const key_type& key) {
@@ -314,8 +315,9 @@ protected:
 		return p;
 	}
 
-	void erase_rotate(const node* pos) {
+	node* erase_rotate(const node* pos) {
 		_erase_r(const_cast<node*>(pos));
+		return const_cast<node*>(pos);
 	}
 
 	node* erase_rotate(const key_type& key) {

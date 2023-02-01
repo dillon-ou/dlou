@@ -94,7 +94,7 @@ public:
 		}
 	}
 
-	void erase(const node* pos) {
+	node* erase(const node* pos) {
 		node* child;
 
 		for (;;) {
@@ -118,6 +118,8 @@ public:
 			parent->n[pos == parent->n[1]] = child;
 		else
 			root_ = child;
+
+		return const_cast<node*>(pos);
 	}
 	
 	node* erase(const key_type& key) {

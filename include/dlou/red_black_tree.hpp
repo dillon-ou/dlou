@@ -26,8 +26,10 @@ protected:
 	using basic_type::compare;
 
 protected:
+	static color_type color(const node* p) { return p->b; }
 	static color_type& color(node* p) { return p->b; }
-	static bool is_red(node* p) {
+
+	static bool is_red(const node* p) {
 		static_assert(red == true, "Check color value");
 		return p ? color(p) : black;
 	}
@@ -53,6 +55,62 @@ protected:
 			throw(pos);
 
 		return size_t(black == color(pos)) + n;
+	}
+
+	void _erase(node* pos) {
+		node* curr;
+		node* parent = basic_type::_erase(const_cast<node*>(pos), std::move(curr));
+
+		if (red == color(pos))
+			return;
+
+		while (parent) {
+			if (is_red(curr)) {
+				color(curr) = black;
+				return;
+			}
+
+			bool right = curr == parent->n[1];
+			node* sibling = parent->n[!right];
+
+			if (black != color(sibling)) {
+				color(parent) = red;
+				color(sibling) = black;
+				basic_type::rotate(right, parent);
+				sibling = parent->n[!right];
+			}
+
+			node* child = sibling->n[!right];
+			if (is_red(child)) {
+				color(sibling) = color(parent);
+				color(parent) = black;
+				color(child) = black;
+				basic_type::rotate(right, parent);
+				return;
+			}
+
+			child = sibling->n[right];
+			if (is_red(child)) {
+				//color(sibling) = red;
+				color(child) = black;
+				child = _rotate(!right, sibling);
+				parent->n[!right] = child;
+				_parent(child) = parent;
+
+				color(child) = color(parent);
+				color(parent) = black;
+				color(sibling) = black;
+				basic_type::rotate(right, parent);
+				return;
+			}
+
+			color(sibling) = red;
+			curr = parent;
+			parent = _parent(curr);
+		}
+
+		if (root_)
+			color(root_) = black;
 	}
 
 public:
@@ -137,60 +195,9 @@ public:
 		color(root_) = black;
 	}
 	
-	void erase(node* pos) {
-		node* curr;
-		node* parent = basic_type::_erase(const_cast<node*>(pos), std::move(curr));
-
-		if (red == color(pos))
-			return;
-
-		while (parent) {
-			if (is_red(curr)) {
-				color(curr) = black;
-				return;
-			}
-
-			bool right = curr == parent->n[1];
-			node* sibling = parent->n[!right];
-
-			if (black != color(sibling)) {
-				color(parent) = red;
-				color(sibling) = black;
-				basic_type::rotate(right, parent);
-				sibling = parent->n[!right];
-			}
-
-			node* child = sibling->n[!right];
-			if (is_red(child)) {
-				color(sibling) = color(parent);
-				color(parent) = black;
-				color(child) = black;
-				basic_type::rotate(right, parent);
-				return;
-			}
-
-			child = sibling->n[right];
-			if (is_red(child)) {
-				//color(sibling) = red;
-				color(child) = black;
-				child = _rotate(!right, sibling);
-				parent->n[!right] = child;
-				_parent(child) = parent;
-
-				color(child) = color(parent);
-				color(parent) = black;
-				color(sibling) = black;
-				basic_type::rotate(right, parent);
-				return;
-			}
-
-			color(sibling) = red;
-			curr = parent;
-			parent = _parent(curr);
-		}
-
-		if (root_)
-			color(root_) = black;
+	node* erase(const node* pos) {
+		_erase(const_cast<node*>(pos));
+		return const_cast<node*>(pos);
 	}
 	
 	node* erase(const key_type& key) {
