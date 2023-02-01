@@ -6,9 +6,9 @@
 #include <functional>
 
 namespace dlou {
-	
+
 template<class Key, class Compare = std::less<Key>, class Balance = void>
-class binary_search_tree
+class basic_bst
 	: protected binary_tree<Key, Balance>
 	, private Compare
 {
@@ -50,7 +50,7 @@ protected:
 	using basic_type::swap_node;
 	using basic_type::_parent;
 
-	binary_search_tree(node* p) : basic_type(p) {}
+	basic_bst(node* p) : basic_type(p) {}
 
 	bool _fault(const node* pos) const {
 		if (auto child = pos->n[0])
@@ -176,14 +176,83 @@ protected:
 		return parent;
 	}
 
-public:
-	binary_search_tree() = default;
-	binary_search_tree(binary_search_tree&&) = default;
+	void _erase_r(node* pos) {
+		bool r = false;
 
-	void swap(binary_search_tree& x) {
+		while (pos->n[0] && pos->n[1])
+			rotate(r = !r, pos);
+
+		auto parent = _parent(pos);
+
+		auto child = pos->n[0];
+		if (!child)
+			child = pos->n[1];
+
+		if (child)
+			_parent(child) = parent;
+
+		if (parent)
+			parent->n[pos == parent->n[1]] = child;
+		else
+			root_ = child;
+	}
+
+public:
+	basic_bst() = default;
+	basic_bst(basic_bst&&) = default;
+
+	void swap(basic_bst& x) {
 		basic_type::swap(dynamic_cast<basic_type&>(x));
 	}
 
+	const node* find(const key_type& key) const {
+		auto* ret = lower_bound(key);
+		if (ret && compare(key, ret->k))
+			ret = nullptr;
+		return ret;
+	}
+	
+	const node* lower_bound(const key_type& key) const {
+		node* pos = root_;
+		node* ret = nullptr;
+		while (pos) {
+			if (compare(pos->k, key))
+				pos = pos->n[1];
+			else
+				pos = (ret = pos)->n[0];
+		}
+		return ret;
+	}
+	
+	const node* upper_bound(const key_type& key) const {
+		node* pos = root_;
+		node* ret = nullptr;
+		while (pos) {
+			if (!compare(key, pos->k))
+				pos = pos->n[1];
+			else
+				pos = (ret = pos)->n[0];
+		}
+		return ret;
+	}
+
+	const node* front() const {
+		return in_order::first(const_cast<node*>(root_));
+	}
+
+	const node* back() const {
+		return in_order::last(const_cast<node*>(root_));
+	}
+
+	const node* next(const node* p) const {
+		return in_order::next(const_cast<node*>(p));
+	}
+
+	const node* prev(const node* p) const {
+		return in_order::prev(const_cast<node*>(p));
+	}
+
+protected:
 	const node* fault() const {
 		node* pos = pre_order::first(const_cast<node*>(root_));
 		while (pos) {
@@ -233,11 +302,11 @@ public:
 		p->n[0] = p->n[1] = nullptr;
 		*branch = p;
 	}
-	
+
 	void erase(const node* pos) {
 		_erase(const_cast<node*>(pos));
 	}
-	
+
 	node* erase(const key_type& key) {
 		auto p = const_cast<node*>(find(key));
 		if (p)
@@ -245,36 +314,36 @@ public:
 		return p;
 	}
 
-	const node* find(const key_type& key) const {
-		auto* ret = lower_bound(key);
-		if (ret && compare(key, ret->k))
-			ret = nullptr;
-		return ret;
+	void erase_rotate(const node* pos) {
+		_erase_r(const_cast<node*>(pos));
 	}
-	
-	const node* lower_bound(const key_type& key) const {
-		node* pos = root_;
-		node* ret = nullptr;
-		while (pos) {
-			if (compare(pos->k, key))
-				pos = pos->n[1];
-			else
-				pos = (ret = pos)->n[0];
-		}
-		return ret;
+
+	node* erase_rotate(const key_type& key) {
+		auto p = const_cast<node*>(find(key));
+		if (p)
+			_erase_r(p);
+		return p;
 	}
-	
-	const node* upper_bound(const key_type& key) const {
-		node* pos = root_;
-		node* ret = nullptr;
-		while (pos) {
-			if (!compare(key, pos->k))
-				pos = pos->n[1];
-			else
-				pos = (ret = pos)->n[0];
-		}
-		return ret;
-	}
-}; // class binary_search_tree
+}; // class basic_bst
+
+template<class Key, class Compare = std::less<Key>>
+class binary_search_tree
+	: public basic_bst<Key, Compare, void>
+{
+	using basic_type = basic_bst<Key, Compare, void>;
+public:
+	using basic_type::fault;
+	using basic_type::rotate;
+	using basic_type::rebuild;
+	using basic_type::insert;
+	using basic_type::erase;
+	using basic_type::erase_rotate;
+
+public:
+	binary_search_tree() = default;
+	binary_search_tree(binary_search_tree&&) = default;
+	void swap(binary_search_tree& x) { basic_type::swap(dynamic_cast<basic_type&>(x)); }
+
+}; // binary_search_tree
 
 } // namespace dlou

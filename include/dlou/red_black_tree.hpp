@@ -8,45 +8,16 @@ namespace dlou {
 
 template<class Key, class Compare = std::less<Key>>
 class red_black_tree
-	: public binary_search_tree<Key, Compare, bool>
+	: public basic_bst<Key, Compare, bool>
 {
-	using basic_type = binary_search_tree<Key, Compare, bool>;
+	using basic_type = basic_bst<Key, Compare, bool>;
 public:
 	using typename basic_type::key_type;
-	using typename basic_type::key_compare;
 	using typename basic_type::node;
-	using typename basic_type::iterator;
-	using typename basic_type::reverse_iterator;
-	using typename basic_type::basic_iterator;
-	using typename basic_type::basic_reverse_iterator;
-	using typename basic_type::pre_order;
-	using typename basic_type::in_order;
-	using typename basic_type::post_order;
-	using typename basic_type::level_order;
-	using typename basic_type::traversal;
-	using typename basic_type::reverse_traversal;
 
 	using color_type = node_balance_t<node>;
 	static constexpr color_type black = 0;
 	static constexpr color_type red = 1;
-
-	using basic_type::parent;
-	using basic_type::child;
-	using basic_type::empty;
-	using basic_type::level;
-	using basic_type::begin;
-	using basic_type::end;
-	using basic_type::rbegin;
-	using basic_type::rend;
-	using basic_type::tbegin;
-	using basic_type::tend;
-	using basic_type::trbegin;
-	using basic_type::trend;
-	using basic_type::search;
-	using basic_type::rsearch;
-	using basic_type::find;
-	using basic_type::lower_bound;
-	using basic_type::upper_bound;
 
 protected:
 	using basic_type::root_;

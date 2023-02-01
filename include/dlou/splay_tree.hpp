@@ -6,19 +6,23 @@ namespace dlou {
 	
 template<class Key, class Compare = std::less<Key>>
 class splay_tree
-	: public binary_search_tree<Key, Compare, void>
+	: public basic_bst<Key, Compare, void>
 {
-	using basic_type = binary_search_tree<Key, Compare, void>;
+	using basic_type = basic_bst<Key, Compare, void>;
 public:
 	using typename basic_type::key_type;
-	using typename basic_type::key_compare;
 	using typename basic_type::node;
+
+	using basic_type::fault;
+	using basic_type::rotate;
+	using basic_type::rebuild;
 
 protected:
 	using basic_type::root_;
 	using basic_type::_parent;
 	using basic_type::_rotate;
 
+protected:
 	splay_tree(node* p) : basic_type(p) {}
 
 	void _splay(node* pos) {

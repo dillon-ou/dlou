@@ -9,44 +9,15 @@ namespace dlou {
 
 template<class Key, class Compare = std::less<Key>, class Random = std::random_device>
 class treap
-	: protected binary_search_tree<Key, Compare, unsigned>
+	: public basic_bst<Key, Compare, unsigned>
 {
-	using basic_type = binary_search_tree<Key, Compare, unsigned>;
+	using basic_type = basic_bst<Key, Compare, unsigned>;
 public:
 	using typename basic_type::key_type;
-	using typename basic_type::key_compare;
 	using typename basic_type::node;
-	using typename basic_type::iterator;
-	using typename basic_type::reverse_iterator;
-	using typename basic_type::basic_iterator;
-	using typename basic_type::basic_reverse_iterator;
-	using typename basic_type::pre_order;
-	using typename basic_type::in_order;
-	using typename basic_type::post_order;
-	using typename basic_type::level_order;
-	using typename basic_type::traversal;
-	using typename basic_type::reverse_traversal;
 
 	using random_engine = Random;
 	using priority_type = node_balance_t<node>;
-
-	using basic_type::parent;
-	using basic_type::child;
-	using basic_type::empty;
-	using basic_type::level;
-	using basic_type::begin;
-	using basic_type::end;
-	using basic_type::rbegin;
-	using basic_type::rend;
-	using basic_type::tbegin;
-	using basic_type::tend;
-	using basic_type::trbegin;
-	using basic_type::trend;
-	using basic_type::search;
-	using basic_type::rsearch;
-	using basic_type::find;
-	using basic_type::lower_bound;
-	using basic_type::upper_bound;
 
 protected:
 	using basic_type::root_;
@@ -98,12 +69,14 @@ public:
 	}
 
 	const node* fault() const {
-		node* pos = pre_order::first(const_cast<node*>(root_));
+		using order = typename basic_type::pre_order;
+
+		node* pos = order::first(const_cast<node*>(root_));
 		while (pos) {
 			if (_fault(pos))
 				return pos;
 
-			pos = pre_order::next(pos);
+			pos = order::next(pos);
 		}
 		return nullptr;
 	}
