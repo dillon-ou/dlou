@@ -488,7 +488,8 @@ public:
 #endif
 		return ret;
 	}
-		
+
+public:
 	template<class Order>
 	class basic_iterator {
 		friend class binary_tree;
@@ -510,6 +511,9 @@ public:
 		basic_iterator() = default;
 		basic_iterator(const basic_iterator&) = default;
 		basic_iterator& operator =(const basic_iterator&) = default;
+
+		template<class Other> basic_iterator(const basic_iterator<Other>& x) : basic_iterator(&*x) {}
+		template<class Other> basic_iterator& operator =(const basic_iterator<Other>& x) : basic_iterator(&*x) {}
 		
 		bool operator ==(const basic_iterator& x) const { return pos_ == x.pos_; }
 		bool operator !=(const basic_iterator& x) const { return pos_ != x.pos_; }
@@ -544,6 +548,11 @@ public:
 		basic_reverse_iterator() = default;
 		basic_reverse_iterator(const basic_reverse_iterator&) = default;
 		basic_reverse_iterator& operator =(const basic_reverse_iterator&) = default;
+
+		template<class Other> basic_reverse_iterator(const basic_reverse_iterator<Other>&x) : basic_reverse_iterator(&*x) {}
+		template<class Other> basic_reverse_iterator& operator =(const basic_reverse_iterator<Other>&x) : basic_reverse_iterator(&*x) {}
+
+		template<class Other> explicit operator basic_iterator<Other>() const { return make_iterator<Other>(pos_); }
 		
 		bool operator ==(const basic_reverse_iterator& x) const { return pos_ == x.pos_; }
 		bool operator !=(const basic_reverse_iterator& x) const { return pos_ != x.pos_; }
@@ -616,6 +625,13 @@ public:
 
 	template<class Order = default_traversal>
 	auto rsearch() const { return reverse_traversal<Order>(this); }
+
+protected:
+	template<class Order = default_traversal>
+	static basic_iterator<Order> make_iterator(const node* p) { return basic_iterator<Order>(p); }
+
+	template<class Order = default_traversal>
+	static basic_iterator<Order> make_riterator(const node* p) { return basic_reverse_iterator<Order>(p); }
 
 protected:
 	node* root_;

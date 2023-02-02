@@ -20,14 +20,14 @@ public:
 	using typename basic_type::node;
 	using typename basic_type::iterator;
 	using typename basic_type::reverse_iterator;
-	using typename basic_type::basic_iterator;
-	using typename basic_type::basic_reverse_iterator;
-	using typename basic_type::pre_order;
-	using typename basic_type::in_order;
-	using typename basic_type::post_order;
-	using typename basic_type::level_order;
-	using typename basic_type::traversal;
-	using typename basic_type::reverse_traversal;
+	//using typename basic_type::basic_iterator;
+	//using typename basic_type::basic_reverse_iterator;
+	//using typename basic_type::pre_order;
+	//using typename basic_type::in_order;
+	//using typename basic_type::post_order;
+	//using typename basic_type::level_order;
+	//using typename basic_type::traversal;
+	//using typename basic_type::reverse_traversal;
 
 	using basic_type::parent;
 	using basic_type::child;
@@ -37,18 +37,19 @@ public:
 	using basic_type::end;
 	using basic_type::rbegin;
 	using basic_type::rend;
-	using basic_type::tbegin;
-	using basic_type::tend;
-	using basic_type::trbegin;
-	using basic_type::trend;
-	using basic_type::search;
-	using basic_type::rsearch;
+	//using basic_type::tbegin;
+	//using basic_type::tend;
+	//using basic_type::trbegin;
+	//using basic_type::trend;
+	//using basic_type::search;
+	//using basic_type::rsearch;
 
 protected:
 	using basic_type::root_;
 	using basic_type::replace;
 	using basic_type::swap_node;
 	using basic_type::_parent;
+	using basic_type::make_iterator;
 
 	basic_bst(node* p) : basic_type(p) {}
 
@@ -205,14 +206,15 @@ public:
 		basic_type::swap(dynamic_cast<basic_type&>(x));
 	}
 
-	const node* find(const key_type& key) const {
-		auto* ret = lower_bound(key);
-		if (ret && compare(key, ret->k))
-			ret = nullptr;
-		return ret;
+	iterator find(const key_type& key) const {
+		auto r = lower_bound(key);
+		auto e = end();
+		if (e != r && compare(key, r->k))
+			return e;
+		return r;
 	}
 	
-	const node* lower_bound(const key_type& key) const {
+	iterator lower_bound(const key_type& key) const {
 		node* pos = root_;
 		node* ret = nullptr;
 		while (pos) {
@@ -221,10 +223,10 @@ public:
 			else
 				pos = (ret = pos)->n[0];
 		}
-		return ret;
+		return make_iterator(ret);
 	}
 	
-	const node* upper_bound(const key_type& key) const {
+	iterator upper_bound(const key_type& key) const {
 		node* pos = root_;
 		node* ret = nullptr;
 		while (pos) {
@@ -233,33 +235,27 @@ public:
 			else
 				pos = (ret = pos)->n[0];
 		}
-		return ret;
+		return make_iterator(ret);
 	}
 
 	const node* front() const {
-		return in_order::first(const_cast<node*>(root_));
+		return basic_type::in_order::first(const_cast<node*>(root_));
 	}
 
 	const node* back() const {
-		return in_order::last(const_cast<node*>(root_));
-	}
-
-	const node* next(const node* p) const {
-		return in_order::next(const_cast<node*>(p));
-	}
-
-	const node* prev(const node* p) const {
-		return in_order::prev(const_cast<node*>(p));
+		return basic_type::in_order::last(const_cast<node*>(root_));
 	}
 
 protected:
 	const node* fault() const {
-		node* pos = pre_order::first(const_cast<node*>(root_));
+		using order = typename basic_type::pre_order;
+
+		node* pos = order::first(const_cast<node*>(root_));
 		while (pos) {
 			if (_fault(pos))
 				return pos;
 
-			pos = pre_order::next(pos);
+			pos = order::next(pos);
 		}
 		return nullptr;
 	}
@@ -287,7 +283,7 @@ protected:
 		root_ = _rebuild(root_);
 	}
 
-	void insert(node* p) {
+	iterator insert(node* p) {
 		node* pos;
 		node* parent = nullptr;
 		node** branch = &root_;
@@ -301,6 +297,8 @@ protected:
 		_parent(p) = parent;
 		p->n[0] = p->n[1] = nullptr;
 		*branch = p;
+
+		return make_iterator(p);
 	}
 
 	node* erase(const node* pos) {
@@ -308,23 +306,20 @@ protected:
 		return const_cast<node*>(pos);
 	}
 
+	node* erase(iterator it) {
+		auto ret = const_cast<node*>(&*it);
+		_erase(ret);
+		return ret;
+	}
+
 	node* erase(const key_type& key) {
-		auto p = const_cast<node*>(find(key));
-		if (p)
-			_erase(p);
-		return p;
+		auto it = find(key);
+		return (end() != it) ? erase(it) : nullptr;
 	}
 
 	node* erase_rotate(const node* pos) {
 		_erase_r(const_cast<node*>(pos));
 		return const_cast<node*>(pos);
-	}
-
-	node* erase_rotate(const key_type& key) {
-		auto p = const_cast<node*>(find(key));
-		if (p)
-			_erase_r(p);
-		return p;
 	}
 }; // class basic_bst
 

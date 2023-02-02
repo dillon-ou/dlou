@@ -15,6 +15,7 @@ class treap
 public:
 	using typename basic_type::key_type;
 	using typename basic_type::node;
+	using typename basic_type::iterator;
 
 	using random_engine = Random;
 	using priority_type = node_balance_t<node>;
@@ -24,6 +25,7 @@ protected:
 	using basic_type::_parent;
 	using basic_type::_rotate;
 	using basic_type::compare;
+	using basic_type::make_iterator;
 
 protected:
 	priority_type make_priority() {
@@ -81,7 +83,7 @@ public:
 		return nullptr;
 	}
 
-	void insert(node* p) {
+	iterator insert(node* p) {
 		priority_type pri = priority(p) = make_priority();
 
 		basic_type::insert(p);
@@ -92,6 +94,8 @@ public:
 
 			basic_type::rotate(p != parent->n[1], parent);
 		}
+
+		return make_iterator(p);
 	}
 
 	node* erase(const node* pos) {
@@ -121,12 +125,16 @@ public:
 
 		return const_cast<node*>(pos);
 	}
-	
+
+	node* erase(iterator it) {
+		auto ret = const_cast<node*>(&*it);
+		erase(ret);
+		return ret;
+	}
+
 	node* erase(const key_type& key) {
-		auto p = find(key);
-		if (p)
-			erase(p);
-		return p;
+		auto it = find(key);
+		return (basic_type::end() != it) ? erase(it) : nullptr;
 	}
 };
 

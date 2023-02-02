@@ -14,6 +14,7 @@ class red_black_tree
 public:
 	using typename basic_type::key_type;
 	using typename basic_type::node;
+	using typename basic_type::iterator;
 
 	using color_type = node_balance_t<node>;
 	static constexpr color_type black = 0;
@@ -24,6 +25,7 @@ protected:
 	using basic_type::_parent;
 	using basic_type::_rotate;
 	using basic_type::compare;
+	using basic_type::make_iterator;
 
 protected:
 	static color_type color(const node* p) { return p->b; }
@@ -55,6 +57,67 @@ protected:
 			throw(pos);
 
 		return size_t(black == color(pos)) + n;
+	}
+
+	void _insert(node* p) {
+		node* pos;
+		node* parent = nullptr;
+		node** branch = &root_;
+		bool i, j;
+		while (pos = *branch) {
+			i = false != compare(pos->k, p->k);
+			branch = pos->n + i;
+			parent = pos;
+		}
+
+		_parent(p) = parent;
+		p->n[0] = p->n[1] = nullptr;
+		color(p) = red;
+		*branch = p;
+
+		node* grand;
+		node* uncle;
+
+		pos = p;
+		while (parent) {
+			if (black == color(parent))
+				break;
+
+			grand = _parent(parent);
+			j = parent == grand->n[1];
+			uncle = grand->n[!j];
+
+			if (!is_red(uncle)) {
+				i = pos == parent->n[1];
+				if (j != i) {
+					parent = _rotate(!i, parent);
+					_parent(parent) = grand;
+					grand->n[j] = parent;
+				}
+
+				color(parent) = black;
+				color(grand) = red;
+
+				parent = _parent(grand);
+				branch = parent
+					? parent->n + (grand == parent->n[1])
+					: &root_;
+				pos = _rotate(!j, grand);
+				_parent(pos) = parent;
+				*branch = pos;
+
+				return;
+			}
+
+			color(uncle) = black;
+			color(parent) = black;
+			color(grand) = red;
+
+			pos = grand;
+			parent = _parent(grand);
+		}
+
+		color(root_) = black;
 	}
 
 	void _erase(node* pos) {
@@ -135,76 +198,25 @@ public:
 		return nullptr;
 	}
 
-	void insert(node* p) {
-		node* pos;
-		node* parent = nullptr;
-		node** branch = &root_;
-		bool i, j;
-		while (pos = *branch) {
-			i = false != compare(pos->k, p->k);
-			branch = pos->n + i;
-			parent = pos;
-		}
-
-		_parent(p) = parent;
-		p->n[0] = p->n[1] = nullptr;
-		color(p) = red;
-		*branch = p;
-
-		node* grand;
-		node* uncle;
-
-		pos = p;
-		while (parent) {
-			if (black == color(parent))
-				break;
-
-			grand = _parent(parent);
-			j = parent == grand->n[1];
-			uncle = grand->n[!j];
-
-			if (!is_red(uncle)) {
-				i = pos == parent->n[1];
-				if (j != i) {
-					parent = _rotate(!i, parent);
-					_parent(parent) = grand;
-					grand->n[j] = parent;
-				}
-
-				color(parent) = black;
-				color(grand) = red;
-
-				parent = _parent(grand);
-				branch = parent
-					? parent->n + (grand == parent->n[1])
-					: &root_;
-				pos = _rotate(!j, grand);
-				_parent(pos) = parent;
-				*branch = pos;
-				return;
-			}
-
-			color(uncle) = black;
-			color(parent) = black;
-			color(grand) = red;
-
-			pos = grand;
-			parent = _parent(grand);
-		}
-
-		color(root_) = black;
+	iterator insert(node* p) {
+		_insert(p);
+		return make_iterator(p);
 	}
 	
 	node* erase(const node* pos) {
 		_erase(const_cast<node*>(pos));
 		return const_cast<node*>(pos);
 	}
-	
+
+	node* erase(iterator it) {
+		auto ret = const_cast<node*>(&*it);
+		_erase(ret);
+		return ret;
+	}
+
 	node* erase(const key_type& key) {
-		auto p = basic_type::find(key);
-		if (p)
-			erase(p);
-		return p;
+		auto it = find(key);
+		return (basic_type::end() != it) ? erase(it) : nullptr;
 	}
 };
 

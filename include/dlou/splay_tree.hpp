@@ -12,6 +12,7 @@ class splay_tree
 public:
 	using typename basic_type::key_type;
 	using typename basic_type::node;
+	using typename basic_type::iterator;
 
 	using basic_type::fault;
 	using basic_type::rotate;
@@ -21,6 +22,7 @@ protected:
 	using basic_type::root_;
 	using basic_type::_parent;
 	using basic_type::_rotate;
+	using basic_type::make_iterator;
 
 protected:
 	splay_tree(node* p) : basic_type(p) {}
@@ -77,9 +79,10 @@ public:
 		_parent(pos) = nullptr;
 	}
 
-	void insert(node* p) {
+	iterator insert(node* p) {
 		basic_type::insert(p);
 		splay(p);
+		return make_iterator(p);
 	}
 	
 	node* erase(const node* pos) {
@@ -107,19 +110,23 @@ public:
 
 		return curr;
 	}
-	
-	node* erase(const key_type& key) {
-		node* p = basic_type::find(key);
-		if (p)
-			erase(p);
-		return p;
+
+	node* erase(iterator it) {
+		auto ret = const_cast<node*>(&*it);
+		erase(ret);
+		return ret;
 	}
 
-	const node* find_splay(const key_type& key) {
-		auto* p = basic_type::find(key);
-		if (p)
-			splay(p);
-		return p;
+	node* erase(const key_type& key) {
+		auto it = find(key);
+		return (basic_type::end() != it) ? erase(it) : nullptr;
+	}
+
+	iterator find_splay(const key_type& key) {
+		auto it = find(key);
+		if (basic_type::end() != it)
+			splay(&*it);
+		return it;
 	}
 
 	void join_minimum(splay_tree&& x) {
