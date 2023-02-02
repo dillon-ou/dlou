@@ -44,19 +44,18 @@ namespace _priority_queue {
 
 template<
 	auto MemberObjPtr,
-	class Compare = std::less<_priority_queue::key_t<MemberObjPtr>>,
-	class Container = leftist_heap<_priority_queue::key_t<MemberObjPtr>, Compare>>
+	class Container = leftist_heap<_priority_queue::key_t<MemberObjPtr>, std::less<_priority_queue::key_t<MemberObjPtr>>>>
 DLOU_REQUIRES(
 	std::is_member_object_pointer_v<decltype(MemberObjPtr)> && MemberObjPtr != nullptr &&
-	_priority_queue::predicate<Compare, MemberObjPtr> &&
+	_priority_queue::predicate<typename Container::key_compare, MemberObjPtr> &&
 	_priority_queue::basic_heap<Container> &&
 	std::is_same_v<typename Container::node, _priority_queue::node_t<MemberObjPtr>>)
 class priority_queue
 {
 public:
 	using member_object_type = decltype(MemberObjPtr);
-	using key_compare = Compare;
 	using container_type = Container;
+	using key_compare = typename container_type::key_compare;
 	using value_type = remove_member_t<member_object_type>;
 	using node = member_t<member_object_type>;
 	using key_type = node_key_t<node>;
