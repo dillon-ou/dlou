@@ -19,14 +19,14 @@ namespace _stack {
 
 #ifdef __cpp_concepts
 	template<class Container>
-	concept basic_stack = requires (Container list, typename Container::node* node)
+	concept basic_stack = requires (Container list, const Container clist, typename Container::node* node)
 	{
 		typename Container::node;
 		std::default_initializable<Container>;
 		std::move_constructible<Container>;
 		{ list.swap(list) };
 		{ list.empty() } -> std::same_as<bool>;
-		{ const_cast<const Container&>(list).front() } -> std::same_as<const typename Container::node*>;
+		{ clist.front() } -> std::same_as<const typename Container::node*>;
 		{ list.push_front(node) };
 		{ list.pop_front() } -> std::same_as<typename Container::node*>;
 	};
