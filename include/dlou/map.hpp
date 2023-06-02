@@ -127,7 +127,7 @@ public:
 	const container_type& base() const { return btree_; }
 
 	void swap(map& x) { btree_.swap(x.btree_); }
-	bool empty() const { btree_.empty(); }
+	bool empty() const { return btree_.empty(); }
 
 	iterator insert(pointer p) { return btree_.insert(to_node(p)); }
 	pointer erase(const_pointer p) { return to_object(btree_.erase(to_node(p))); }

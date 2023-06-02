@@ -70,7 +70,7 @@ public:
 	const container_type& base() const { return list_; }
 
 	void swap(stack& x) { list_.swap(x.list_); }
-	bool empty() const { list_.empty(); }
+	bool empty() const { return list_.empty(); }
 	const_pointer top() const { return to_object(list_.front()); }
 	void push(pointer p) { list_.push_front(to_node(p)); }
 	pointer pop() { return to_object(list_.pop_front()); }
