@@ -73,6 +73,7 @@ public:
 	const container_type& base() const { return list_; }
 
 	void swap(deque& x) { list_.swap(x.list_); }
+	bool empty() const { list_.empty(); }
 
 	const_pointer front() const { return to_object(list_.front()); }
 	// push

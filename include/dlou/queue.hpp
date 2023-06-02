@@ -71,6 +71,7 @@ public:
 	const container_type& base() const { return list_; }
 
 	void swap(queue& x) { list_.swap(x.list_); }
+	bool empty() const { list_.empty(); }
 
 	const_pointer front() const { return to_object(list_.front()); }
 	const_pointer back() const { return to_object(list_.back()); }

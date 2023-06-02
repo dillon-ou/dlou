@@ -123,46 +123,47 @@ public:
 	map() = default;
 	map(map&&) = default;
 
-	container_type& base() { return map_; }
-	const container_type& base() const { return map_; }
+	container_type& base() { return btree_; }
+	const container_type& base() const { return btree_; }
 
-	void swap(map& x) { map_.swap(x.map_); }
+	void swap(map& x) { btree_.swap(x.btree_); }
+	bool empty() const { btree_.empty(); }
 
-	iterator insert(pointer p) { return map_.insert(to_node(p)); }
-	pointer erase(const_pointer p) { return to_object(map_.erase(to_node(p))); }
+	iterator insert(pointer p) { return btree_.insert(to_node(p)); }
+	pointer erase(const_pointer p) { return to_object(btree_.erase(to_node(p))); }
 	pointer erase(const_iterator it) {
 		auto ret = const_cast<pointer>(&*it);
-		map_.erase(to_node(ret));
+		btree_.erase(to_node(ret));
 		return ret;
 	}
 	pointer erase(const key_type& k) {
-		auto it = map_.find(k);
-		return (map_.end() != it) ? to_object(map_.erase(&*it)) : nullptr;
+		auto it = btree_.find(k);
+		return (btree_.end() != it) ? to_object(btree_.erase(&*it)) : nullptr;
 	}
 
-	const_iterator find(const key_type& k) const { return map_.find(k); }
-	const_iterator lower_bound(const key_type& k) const { return map_.lower_bound(k); }
-	const_iterator upper_bound(const key_type& k) const { return map_.upper_bound(k); }
+	const_iterator find(const key_type& k) const { return btree_.find(k); }
+	const_iterator lower_bound(const key_type& k) const { return btree_.lower_bound(k); }
+	const_iterator upper_bound(const key_type& k) const { return btree_.upper_bound(k); }
 
-	iterator find(const key_type& k) { return map_.find(k); }
-	iterator lower_bound(const key_type& k) { return map_.lower_bound(k); }
-	iterator upper_bound(const key_type& k) { return map_.upper_bound(k); }
+	iterator find(const key_type& k) { return btree_.find(k); }
+	iterator lower_bound(const key_type& k) { return btree_.lower_bound(k); }
+	iterator upper_bound(const key_type& k) { return btree_.upper_bound(k); }
 
-	const_pointer fornt() const { return to_object(map_.fornt()); }
-	const_pointer back() const { return to_object(map_.back()); }
+	const_pointer fornt() const { return to_object(btree_.fornt()); }
+	const_pointer back() const { return to_object(btree_.back()); }
 
-	pointer fornt() { return to_object(map_.fornt()); }
-	pointer back() { return to_object(map_.back()); }
+	pointer fornt() { return to_object(btree_.fornt()); }
+	pointer back() { return to_object(btree_.back()); }
 
-	iterator begin() { return map_.begin(); }
-	iterator end() { return map_.end(); }
-	reverse_iterator rbegin() { return map_.rbegin(); }
-	reverse_iterator rend() { return map_.rend(); }
+	iterator begin() { return btree_.begin(); }
+	iterator end() { return btree_.end(); }
+	reverse_iterator rbegin() { return btree_.rbegin(); }
+	reverse_iterator rend() { return btree_.rend(); }
 
-	const_iterator cbegin() const { return iterator(map_.begin()); }
-	const_iterator cend() const { return iterator(map_.end()); }
-	const_reverse_iterator crbegin() const { return reverse_iterator(map_.rbegin()); }
-	const_reverse_iterator crend() const { return reverse_iterator(map_.rend()); }
+	const_iterator cbegin() const { return iterator(btree_.begin()); }
+	const_iterator cend() const { return iterator(btree_.end()); }
+	const_reverse_iterator crbegin() const { return reverse_iterator(btree_.rbegin()); }
+	const_reverse_iterator crend() const { return reverse_iterator(btree_.rend()); }
 
 	const_iterator begin() const { return cbegin(); }
 	const_iterator end() const { return cend(); }
@@ -170,7 +171,7 @@ public:
 	const_reverse_iterator rend() const { return crend(); }
 
 private:
-	container_type map_;
+	container_type btree_;
 };
 
 } // namespace dlou
