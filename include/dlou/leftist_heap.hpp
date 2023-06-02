@@ -94,9 +94,9 @@ public:
 		if (!ret)
 			return nullptr;
 #endif
-		root_ = ret->n[0]
-			? (ret->n[1] ? merge(ret->n[0], ret->n[1]) : ret->n[0])
-			: ret->n[1];
+		root_ = ret->n[1]
+			? merge(ret->n[0], ret->n[1])
+			: ret->n[0];
 
 		return ret;
 	}
@@ -118,9 +118,9 @@ protected:
 			ret = p1;
 			p1 = p2;
 		}
-		else {
+		else
 			ret = p2;
-		}
+
 		p2 = ret->n[1];
 		ret->n[1] = p2 ? merge(p1, p2) : p1;
 
